@@ -27,7 +27,10 @@ public class UIManager : MonoBehaviour
     private GameObject delete_hint_text;
     [SerializeField]
     private GameObject exit_delete_mode_btn;
-
+    [SerializeField]
+    private GameObject rotate_hint_text;
+    [SerializeField]
+    private GameObject exit_rotate_mode_btn;
 
     public void DisplayHideLevelManagerUI(bool display)
     {
@@ -64,5 +67,12 @@ public class UIManager : MonoBehaviour
         edit_level_btn.SetActive(!display);
         delete_hint_text.SetActive(display);
         exit_delete_mode_btn.SetActive(display);
+    }
+
+    public void DisplayHideRotateUI(bool display)
+    {
+        edit_level_btn.SetActive(!display);
+        rotate_hint_text.SetActive(display);
+        exit_rotate_mode_btn.SetActive(display);
     }
 }

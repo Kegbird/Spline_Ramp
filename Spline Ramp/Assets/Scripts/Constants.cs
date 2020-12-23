@@ -13,5 +13,6 @@ namespace Assets.Scripts
         public const float ZOOM_SPEED = 5f;
         public const float PAN_SPEED = 10f;
         public const float MOVE_SPEED = 10f;
+        public const int ROTATION_PIVOT_INDEX = 0;
     }
 }
