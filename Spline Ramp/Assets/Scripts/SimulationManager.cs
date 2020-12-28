@@ -20,6 +20,8 @@ namespace Assets.Scripts
         private GameObject ball_gameobject;
         [SerializeField]
         private bool simulation_running;
+        [SerializeField]
+        private CameraController camera_controller;
 
         private void Awake()
         {
@@ -27,32 +29,34 @@ namespace Assets.Scripts
             level_manager = GetComponent<LevelManager>();
         }
 
-        public void StartSimulation()
+        public void StartStopSimulation()
         {
-            if (simulation_running)
-                return;
-
-            GameObject tmp = Resources.Load<GameObject>("Ball");
-            ui_manager.DisplayHideEditLevelBtn(false);
-            ball_controller = tmp.GetComponent<BallController>();
-            tmp.transform.position = ball_spawn.position;
-            ball_gameobject=GameObject.Instantiate(tmp);
-            simulation_running = true;
+            if (!simulation_running)
+            {
+                ui_manager.DisplayHideEditLevelBtn(false);
+                GameObject tmp = Resources.Load<GameObject>("Ball");
+                ui_manager.ChangeSimulationButtonText("Reset Simulation (B)");
+                ball_controller = tmp.GetComponent<BallController>();
+                tmp.transform.position = ball_spawn.position;
+                ball_gameobject = GameObject.Instantiate(tmp);
+                simulation_running = true;
+                camera_controller.StartSimulationLock(ball_gameobject.transform);
+            }
+            else
+            {
+                ui_manager.DisplayHideEditLevelBtn(true);
+                ui_manager.ChangeSimulationButtonText("Start Simulation (B)");
+                ball_controller.StopAllCoroutines();
+                simulation_running = false;
+                Destroy(ball_gameobject);
+                camera_controller.StopSimulation();
+            }
         }
-
-        public void ResetSimulation()
-        {
-            simulation_running = false;
-            ui_manager.DisplayHideEditLevelBtn(true);
-            Destroy(ball_gameobject);
-        }
-
+        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.B))
-                StartSimulation();
-            if (Input.GetKeyDown(KeyCode.R))
-                ResetSimulation();
+                StartStopSimulation();
         }
     }
 }

@@ -16,9 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject move_btn;
     [SerializeField]
-    private GameObject start_simulation_btn;
-    [SerializeField]
-    private GameObject reset_simulation_btn;
+    private GameObject start_stop_simulation_btn;
     [SerializeField]
     private GameObject move_hint_text;
     [SerializeField]
@@ -31,6 +29,10 @@ public class UIManager : MonoBehaviour
     private GameObject rotate_hint_text;
     [SerializeField]
     private GameObject exit_rotate_mode_btn;
+    [SerializeField]
+    private GameObject create_edit_spline_hint_text;
+    [SerializeField]
+    private GameObject exit_create_edit_spline_btn;
 
     public void DisplayHideLevelManagerUI(bool display)
     {
@@ -49,10 +51,14 @@ public class UIManager : MonoBehaviour
         edit_level_btn.SetActive(display);
     }
 
+    public void ChangeSimulationButtonText(string text)
+    {
+        start_stop_simulation_btn.GetComponentInChildren<Text>().text = text;
+    }
+
     public void DisplayHideSimulationUI(bool display)
     {
-        start_simulation_btn.SetActive(display);
-        reset_simulation_btn.SetActive(display);
+        start_stop_simulation_btn.SetActive(display);
     }
 
     public void DisplayHideMoveUI(bool display)
@@ -74,5 +80,12 @@ public class UIManager : MonoBehaviour
         edit_level_btn.SetActive(!display);
         rotate_hint_text.SetActive(display);
         exit_rotate_mode_btn.SetActive(display);
+    }
+
+    public void DisplayHideCreateEditSplineUI(bool display)
+    {
+        edit_level_btn.SetActive(!display);
+        exit_create_edit_spline_btn.SetActive(display);
+        create_edit_spline_hint_text.SetActive(display);
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Assets.Scripts;
 
 public class LevelManager : MonoBehaviour
@@ -19,6 +17,16 @@ public class LevelManager : MonoBehaviour
     private Vector3 translation_offset;
     [SerializeField]
     private Vector3 rotation_offset;
+    [SerializeField]
+    private Transform boundary;
+    [SerializeField]
+    private GameObject ramp;
+    [SerializeField]
+    private LineRenderer ramp_line_renderer;
+    [SerializeField]
+    private EdgeCollider2D ramp_edge_collider;
+    [SerializeField]
+    private int point_index = 0;
 
     private void Awake()
     {
@@ -37,6 +45,8 @@ public class LevelManager : MonoBehaviour
             DisplayHideDeleteModeUI();
         if (Input.GetKeyDown(KeyCode.R))
             DisplayHideRotateModeUI();
+        if (Input.GetKeyDown(KeyCode.M))
+            DisplayHideCreateEditSplineUI();
         PerformEditMode();
     }
 
@@ -56,8 +66,47 @@ public class LevelManager : MonoBehaviour
                 DeleteObject();
                 break;
             default:
+                CreateEditSegmentRamp();
                 break;
         }
+    }
+
+    private void CreateEditSegmentRamp()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Vector3 position = GetMouseWorldCoordinates();
+            if (ramp == null)
+            {
+                ramp = new GameObject();
+                ramp.name = "Ramp";
+                ramp.tag = "Interactable";
+                ramp.transform.position = position;
+                ramp_line_renderer = ramp.AddComponent<LineRenderer>();
+                ramp_line_renderer.startWidth = Constants.RAMP_EDGE_RADIUS;
+                ramp_line_renderer.endWidth = Constants.RAMP_EDGE_RADIUS;
+                ramp_line_renderer.SetPosition(point_index, position);
+                point_index++;
+            }
+            else
+            {
+                ramp_line_renderer.positionCount++;
+                point_index++;
+            }
+        }
+        else if(Input.GetMouseButton(0))
+        {
+
+        }
+        else if(Input.GetMouseButtonDown(1))
+        {
+            if (ramp == null)
+                return;
+            BuildRampCollider();
+        }
+
+        if(point_index>0)
+            ramp_line_renderer.SetPosition(point_index, GetMouseWorldCoordinates());
     }
 
     private void MoveGrabbedObject()
@@ -79,7 +128,9 @@ public class LevelManager : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-                grabbed_gameobject.transform.position = GetMouseWorldCoordinates() - translation_offset;
+                Vector3 new_position = GetMouseWorldCoordinates() - translation_offset;
+                new_position.x = Mathf.Clamp(new_position.x, Constants.MIN_X_BOUNDARY, boundary.position.x);
+                grabbed_gameobject.transform.position = new_position;
             }
             else if (Input.GetMouseButtonUp(0))
             {
@@ -114,13 +165,11 @@ public class LevelManager : MonoBehaviour
                 grabbed_gameobject.transform.parent.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
             }
             else if (Input.GetMouseButtonUp(0))
+            {
                 grabbed_gameobject = null;
+                rotation_offset = Vector3.zero;
+            }
         }
-    }
-
-    private float AngleBetweenTwoPoints()
-    {
-        return 0;
     }
 
     private void DeleteObject()
@@ -140,6 +189,27 @@ public class LevelManager : MonoBehaviour
         position = Camera.main.ScreenToWorldPoint(position);
         position.z = 0;
         return position;
+    }
+
+    private void BuildRampCollider()
+    {
+        ramp_line_renderer.positionCount -= 1;
+        //Creation edge collider
+        int points_number = point_index;
+        ramp_edge_collider = ramp.AddComponent<EdgeCollider2D>();
+        ramp_edge_collider.edgeRadius = Constants.RAMP_EDGE_RADIUS;
+        Vector2[] points = new Vector2[points_number];
+        points[0] = Vector2.zero;
+
+        for (int i = 1; i < points_number; i++)
+        {
+            Vector2 point = ramp_line_renderer.GetPosition(i);
+            point.x = point.x - ramp.transform.position.x;
+            point.y = point.y - ramp.transform.position.y;
+            points[i] = point;
+        }
+        ramp_edge_collider.points = points;
+        point_index = 0;
     }
 
     public void DisplayHideLevelManagerUI()
@@ -176,6 +246,28 @@ public class LevelManager : MonoBehaviour
             editing_mode = EditingMode.None;
             ui_manager.DisplayHideLevelManagerUI(true);
             ui_manager.DisplayHideMoveUI(false);
+        }
+    }
+
+    public void DisplayHideCreateEditSplineUI()
+    {
+        if (!editing)
+            return;
+
+        if(editing_mode==EditingMode.None)
+        {
+            editing_mode = EditingMode.CreateEditSplineMode;
+            ui_manager.DisplayHideLevelManagerUI(false);
+            ui_manager.DisplayHideCreateEditSplineUI(true);
+        }
+        else if(editing_mode == EditingMode.CreateEditSplineMode)
+        {
+            if (point_index > 0)
+                BuildRampCollider();
+
+            editing_mode = EditingMode.None;
+            ui_manager.DisplayHideLevelManagerUI(true);
+            ui_manager.DisplayHideCreateEditSplineUI(false);
         }
     }
 
@@ -219,7 +311,7 @@ public class LevelManager : MonoBehaviour
             ui_manager.DisplayHideLevelManagerUI(false);
             ui_manager.DisplayHideDeleteModeUI(true);
         }
-        else
+        else if(editing_mode == EditingMode.DeleteMode)
         {
             editing_mode = EditingMode.None;
             ui_manager.DisplayHideLevelManagerUI(true);
