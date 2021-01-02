@@ -15,5 +15,8 @@ namespace Assets.Scripts
         public const float MIN_X_BOUNDARY = -10f;
         public const float RAMP_EDGE_RADIUS = 0.1f;
         public static int GOAL_LAYER_MASK= LayerMask.NameToLayer("Goal");
+        public static int RAMP_LAYER_MASK= LayerMask.NameToLayer("Ramp");
+        public static int ROTATION_GIZMO_LAYER_MASK= LayerMask.NameToLayer("RotationGizmo");
+        public static int TRANSLATION_GIZMO_LAYER_MASK = LayerMask.NameToLayer("TranslationGizmo");
     }
 }
