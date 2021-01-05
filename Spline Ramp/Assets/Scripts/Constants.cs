@@ -13,10 +13,13 @@ namespace Assets.Scripts
         public const float ACCELERATION_FACTOR = 0.1f;
         public const float ACCELERATION_TICK = 0.1f;
         public const float MIN_X_BOUNDARY = -10f;
+        public const float MAX_X_BOUNDARY = 0f;
         public const float RAMP_EDGE_RADIUS = 0.1f;
         public static int GOAL_LAYER_MASK= LayerMask.NameToLayer("Goal");
         public static int RAMP_LAYER_MASK= LayerMask.NameToLayer("Ramp");
         public static int ROTATION_GIZMO_LAYER_MASK= LayerMask.NameToLayer("RotationGizmo");
         public static int TRANSLATION_GIZMO_LAYER_MASK = LayerMask.NameToLayer("TranslationGizmo");
+        public static int SUPPORT_NODE_LAYER_MASK = LayerMask.NameToLayer("SupportNode");
+        public static int CURVE_STEPS = 20;
     }
 }

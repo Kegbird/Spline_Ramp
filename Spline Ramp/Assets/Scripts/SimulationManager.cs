@@ -52,6 +52,11 @@ namespace Assets.Scripts
                 camera_controller.StopSimulation();
             }
         }
+
+        public bool IsSimulationRunning()
+        {
+            return simulation_running;
+        }
         
         private void Update()
         {

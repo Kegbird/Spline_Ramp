@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Scripts;
+using Assets.Scripts.Ramps;
 
 public class LevelManager : MonoBehaviour
 {
@@ -7,7 +8,6 @@ public class LevelManager : MonoBehaviour
     {
         MoveMode,
         RotateMode,
-        DeleteMode,
         CreateRampMode,
         EditRampMode,
         None
@@ -28,15 +28,18 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private Transform boundary;
     [SerializeField]
-    private bool moving;
+    private bool moving_ramp;
     [SerializeField]
-    private bool rotating;
+    private bool rotating_ramp;
     [SerializeField]
     private bool editing_ramp;
     [SerializeField]
     private int node_index;
     [SerializeField]
     private bool mouse_over_ui = false;
+    [SerializeField]
+    private Ramp ramp;
+
 
     private void Awake()
     {
@@ -47,12 +50,15 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
+        if (simulation_manager.IsSimulationRunning())
+            return;
+
         if (Input.GetKeyDown(KeyCode.E))
             SetUnsetEditingMode();
         if (Input.GetKeyDown(KeyCode.T))
             SetUnsetMoveMode();
         if (Input.GetKeyDown(KeyCode.D))
-            SetUnsetDeleteMode();
+            DeleteRamp();
         if (Input.GetKeyDown(KeyCode.R))
             SetUnsetRotateMode();
         if (Input.GetKeyDown(KeyCode.M))
@@ -74,9 +80,6 @@ public class LevelManager : MonoBehaviour
             case EditingMode.RotateMode:
                 RotateObject();
                 break;
-            case EditingMode.DeleteMode:
-                DeleteObject();
-                break;
             case EditingMode.CreateRampMode:
                 CreateRamp();
                 break;
@@ -90,7 +93,7 @@ public class LevelManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, 1 << Constants.TRANSLATION_GIZMO_LAYER_MASK);
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, 1 << Constants.SUPPORT_NODE_LAYER_MASK);
             if (hit.collider != null)
             {
                 editing_ramp = true;
@@ -103,8 +106,7 @@ public class LevelManager : MonoBehaviour
             if (editing_ramp)
             {
                 Vector3 new_position = GetMouseWorldCoordinates() - translation_offset;
-                new_position.x = Mathf.Clamp(new_position.x, Constants.MIN_X_BOUNDARY, boundary.position.x);
-                Ramp.Edit(new_position, node_index);
+                ramp.Edit(new_position, node_index);
             }
         }
         if (Input.GetMouseButtonUp(0))
@@ -112,6 +114,8 @@ public class LevelManager : MonoBehaviour
             translation_offset = Vector3.zero;
             editing_ramp = false;
             node_index = 0;
+
+            
         }
     }
 
@@ -124,81 +128,90 @@ public class LevelManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             new_position = GetMouseWorldCoordinates();
-            new_position.x = Mathf.Clamp(new_position.x, Constants.MIN_X_BOUNDARY, boundary.position.x);
-            Ramp.AddPoint(new_position);
+            if (!ValidCoordinates(new_position))
+                return;
+            if (ramp == null)
+            {
+                switch (ui_manager.GetRampType())
+                {
+                    case RampType.Segment:
+                        ramp = new SegmentRamp(new_position);
+                        break;
+                    case RampType.Bezier:
+                        ramp = new BezierRamp(new_position);
+                        break;
+                    default:
+                        ramp = new BSplineRamp(new_position);
+                        break;
+                }
+                ui_manager.EnableDisableInteractionRampTypeDropdown(false);
+            }
+            ramp.AddPoint(new_position);
         }
         if (Input.GetMouseButtonDown(1))
         {
             SetUnsetCreateRampMode();
             return;
         }
-
-        new_position = GetMouseWorldCoordinates();
-        new_position.x = Mathf.Clamp(new_position.x, Constants.MIN_X_BOUNDARY, boundary.position.x);
-        Ramp.SetLastPoint(new_position);
     }
 
     private void MoveObject()
     {
-        if (Ramp.Created())
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            //Raycast
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, 1 << Constants.RAMP_LAYER_MASK);
+            if (hit.collider != null)
             {
-                //Raycast
-                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, 1 << Constants.RAMP_LAYER_MASK);
-                if (hit.collider != null)
-                {
-                    translation_offset = GetMouseWorldCoordinates() - Ramp.GetWorldPosition();
-                    moving = true;
-                }
-                return;
+                translation_offset = GetMouseWorldCoordinates() - ramp.GetWorldPosition();
+                moving_ramp = true;
             }
-            if (Input.GetMouseButton(0) && moving)
-            {
-                Vector3 new_position = GetMouseWorldCoordinates() - translation_offset;
-                Ramp.Translate(new_position, Constants.MIN_X_BOUNDARY, boundary.transform.position.x);
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                moving = false;
-                translation_offset = Vector3.zero;
-            }
-
+            return;
+        }
+        if (Input.GetMouseButton(0) && moving_ramp)
+        {
+            Vector3 new_position = GetMouseWorldCoordinates() - translation_offset;
+            ramp.Translate(new_position);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            moving_ramp = false;
+            translation_offset = Vector3.zero;
         }
     }
 
     private void RotateObject()
     {
-        if (Ramp.Created())
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, 1 << Constants.ROTATION_GIZMO_LAYER_MASK);
-                if (hit.collider != null)
-                    rotating = true;
-                return;
-            }
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, 1 << Constants.ROTATION_GIZMO_LAYER_MASK);
+            if (hit.collider != null)
+                rotating_ramp = true;
+            return;
+        }
 
-            if (Input.GetMouseButton(0) && rotating)
-            {
-                Ramp.Rotate(Input.mousePosition, Constants.MIN_X_BOUNDARY, boundary.transform.position.x);
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                rotating = false;
-                rotation_offset = Vector3.zero;
-            }
+        if (Input.GetMouseButton(0) && rotating_ramp)
+        {
+            ramp.Rotate(Input.mousePosition);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            rotating_ramp = false;
+            rotation_offset = Vector3.zero;
         }
     }
 
-    private void DeleteObject()
+    public void DeleteRamp()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (editing && editing_mode == EditingMode.None && ramp!=null)
         {
-            //Raycast
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit.collider != null && hit.collider.gameObject.tag == "Interactable")
-                Destroy(hit.collider.gameObject);
+            ramp.DestroyRamp();
+            ramp = null;
+            ui_manager.EnableDisableInteractionMenuEditBtn(false);
+            ui_manager.EnableDisableInteractionCreateRampBtn(true);
+            ui_manager.EnableDisableInteractionMoveBtn(false);
+            ui_manager.EnableDisableInteractionRotateBtn(false);
+            ui_manager.EnableDisableInteractionEditBtn(false);
         }
     }
 
@@ -222,7 +235,7 @@ public class LevelManager : MonoBehaviour
 
     public void SetUnsetMoveMode()
     {
-        if (!editing)
+        if (!editing || ramp==null)
             return;
 
         if (editing_mode == EditingMode.None)
@@ -236,25 +249,23 @@ public class LevelManager : MonoBehaviour
             editing_mode = EditingMode.None;
             ui_manager.DisplayHideLevelManagerUI(true);
             ui_manager.DisplayHideMoveUI(false);
-            moving = false;
+            moving_ramp = false;
         }
     }
 
     public void SetUnsetEditRampMode()
     {
-        if (!editing)
+        if (!editing || ramp==null)
             return;
 
-        if (editing_mode == EditingMode.None && Ramp.Created())
+        if (editing_mode == EditingMode.None)
         {
-            Ramp.DisplayNodeTranslationGizmo();
             editing_mode = EditingMode.EditRampMode;
             ui_manager.DisplayHideLevelManagerUI(false);
             ui_manager.DisplayHideEditRampUI(true);
         }
-        else if (editing_mode == EditingMode.EditRampMode && Ramp.Created())
+        else if (editing_mode == EditingMode.EditRampMode)
         {
-            Ramp.HideNodeTranslationGizmo();
             editing_mode = EditingMode.None;
             ui_manager.DisplayHideLevelManagerUI(true);
             ui_manager.DisplayHideEditRampUI(false);
@@ -262,6 +273,7 @@ public class LevelManager : MonoBehaviour
             editing_ramp = false;
             translation_offset = Vector3.zero;
             node_index = 0;
+            StartCoroutine(ramp.BuildRamp());
         }
     }
 
@@ -270,7 +282,8 @@ public class LevelManager : MonoBehaviour
         if (!editing)
             return;
 
-        if (editing_mode == EditingMode.None)
+        ui_manager.EnableDisableInteractionMenuEditBtn(ramp!=null);
+        if (editing_mode == EditingMode.None && ramp==null)
         {
             editing_mode = EditingMode.CreateRampMode;
             ui_manager.DisplayHideLevelManagerUI(false);
@@ -278,52 +291,34 @@ public class LevelManager : MonoBehaviour
         }
         else if (editing_mode == EditingMode.CreateRampMode)
         {
+            if (ramp != null)
+                StartCoroutine(ramp.BuildRamp());
             mouse_over_ui = false;
             editing_mode = EditingMode.None;
             ui_manager.DisplayHideLevelManagerUI(true);
             ui_manager.DisplayHideCreateRampUI(false);
-            Ramp.BuildEdgeCollider();
         }
     }
 
     public void SetUnsetRotateMode()
     {
-        if (!editing)
-            return;
-
-        if (editing_mode == EditingMode.None && Ramp.Created())
-        {
-            editing_mode = EditingMode.RotateMode;
-            ui_manager.DisplayHideLevelManagerUI(false);
-            ui_manager.DisplayHideRotateUI(true);
-            Ramp.DisplayRotationGizmo();
-        }
-        else if (editing_mode == EditingMode.RotateMode && Ramp.Created())
-        {
-            editing_mode = EditingMode.None;
-            ui_manager.DisplayHideLevelManagerUI(true);
-            ui_manager.DisplayHideRotateUI(false);
-            Ramp.HideRotationGizmo();
-            rotating = false;
-        }
-    }
-
-    public void SetUnsetDeleteMode()
-    {
-        if (!editing)
+        if (!editing || ramp==null)
             return;
 
         if (editing_mode == EditingMode.None)
         {
-            editing_mode = EditingMode.DeleteMode;
+            editing_mode = EditingMode.RotateMode;
             ui_manager.DisplayHideLevelManagerUI(false);
-            ui_manager.DisplayHideDeleteModeUI(true);
+            ui_manager.DisplayHideRotateUI(true);
+            ramp.DisplayRotationGizmo();
         }
-        else if (editing_mode == EditingMode.DeleteMode)
+        else if (editing_mode == EditingMode.RotateMode)
         {
             editing_mode = EditingMode.None;
             ui_manager.DisplayHideLevelManagerUI(true);
-            ui_manager.DisplayHideDeleteModeUI(false);
+            ui_manager.DisplayHideRotateUI(false);
+            ramp.HideRotationGizmo();
+            rotating_ramp = false;
         }
     }
 
@@ -338,5 +333,10 @@ public class LevelManager : MonoBehaviour
         position = Camera.main.ScreenToWorldPoint(position);
         position.z = 0;
         return position;
+    }
+
+    private bool ValidCoordinates(Vector3 coordinates)
+    {
+        return  Constants.MIN_X_BOUNDARY< coordinates.x && coordinates.x < Constants.MAX_X_BOUNDARY;
     }
 }

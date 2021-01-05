@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.Ramps;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject edit_level_btn;
     [SerializeField]
-    private GameObject create_edit_spline_btn;
+    private GameObject create_ramp_btn;
     [SerializeField]
     private GameObject rotate_btn;
     [SerializeField]
@@ -23,10 +22,6 @@ public class UIManager : MonoBehaviour
     private GameObject move_hint_text;
     [SerializeField]
     private GameObject exit_move_mode_btn;
-    [SerializeField]
-    private GameObject delete_hint_text;
-    [SerializeField]
-    private GameObject exit_delete_mode_btn;
     [SerializeField]
     private GameObject rotate_hint_text;
     [SerializeField]
@@ -48,7 +43,7 @@ public class UIManager : MonoBehaviour
             edit_level_btn.GetComponentInChildren<Text>().text = "End edit (E)";
         else
             edit_level_btn.GetComponentInChildren<Text>().text = "Edit level (E)";
-        create_edit_spline_btn.SetActive(display);
+        create_ramp_btn.SetActive(display);
         rotate_btn.SetActive(display);
         delete_btn.SetActive(display);
         move_btn.SetActive(display);
@@ -77,13 +72,6 @@ public class UIManager : MonoBehaviour
         exit_move_mode_btn.SetActive(display);
     }
 
-    public void DisplayHideDeleteModeUI(bool display)
-    {
-        edit_level_btn.SetActive(!display);
-        delete_hint_text.SetActive(display);
-        exit_delete_mode_btn.SetActive(display);
-    }
-
     public void DisplayHideRotateUI(bool display)
     {
         edit_level_btn.SetActive(!display);
@@ -97,6 +85,7 @@ public class UIManager : MonoBehaviour
         exit_create_ramp_btn.SetActive(display);
         create_ramp_hint_text.SetActive(display);
         ramp_type_dropdown.SetActive(display);
+        ramp_type_dropdown.GetComponent<Dropdown>().value = 0;
     }
 
     public void DisplayHideEditRampUI(bool display)
@@ -104,5 +93,55 @@ public class UIManager : MonoBehaviour
         edit_level_btn.SetActive(!display);
         exit_edit_ramp_btn.SetActive(display);
         edit_ramp_hint_text.SetActive(display);
+    }
+
+    public void EnableDisableInteractionRampTypeDropdown(bool value)
+    {
+        ramp_type_dropdown.GetComponent<Dropdown>().interactable = value;
+    }
+
+    public void EnableDisableInteractionCreateRampBtn(bool value)
+    {
+        create_ramp_btn.GetComponent<Button>().interactable = value;
+    }
+
+    public void EnableDisableInteractionMoveBtn(bool value)
+    {
+        move_btn.GetComponent<Button>().interactable = value;
+    }
+
+    public void EnableDisableInteractionRotateBtn(bool value)
+    {
+        rotate_btn.GetComponent<Button>().interactable = value;
+    }
+
+    public void EnableDisableInteractionEditBtn(bool value)
+    {
+        edit_btn.GetComponent<Button>().interactable = value;
+    }
+
+    public void EnableDisableInteractionMenuEditBtn(bool value)
+    {
+        if (value)
+        {
+            create_ramp_btn.GetComponent<Button>().interactable = false;
+            move_btn.GetComponent<Button>().interactable = true;
+            rotate_btn.GetComponent<Button>().interactable = true;
+            edit_btn.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            create_ramp_btn.GetComponent<Button>().interactable = true;
+            move_btn.GetComponent<Button>().interactable = false;
+            rotate_btn.GetComponent<Button>().interactable = false;
+            edit_btn.GetComponent<Button>().interactable = false;
+        }
+        EnableDisableInteractionRampTypeDropdown(!value);
+    }
+
+    public RampType GetRampType()
+    {
+        Dropdown dropdown = ramp_type_dropdown.GetComponent<Dropdown>();
+        return (RampType)dropdown.value;
     }
 }
