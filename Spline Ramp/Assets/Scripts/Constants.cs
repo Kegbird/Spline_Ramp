@@ -20,6 +20,12 @@ namespace Assets.Scripts
         public static int ROTATION_GIZMO_LAYER_MASK= LayerMask.NameToLayer("RotationGizmo");
         public static int TRANSLATION_GIZMO_LAYER_MASK = LayerMask.NameToLayer("TranslationGizmo");
         public static int SUPPORT_NODE_LAYER_MASK = LayerMask.NameToLayer("SupportNode");
+        public static int ARROW_LAYER_MASK = LayerMask.NameToLayer("Arrow");
         public static int CURVE_STEPS = 20;
+        public static float DERIVATIVE_MAGNITUDE = 5f;
+        public static int BSPLINE_DEGREE = 3;
+        public static float[] KNOTS_4 = { 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f};
+        public static float[] KNOTS_5 = { 0f, 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f };
+        public static float[] KNOTS_6 = { 0f, 0f, 0f, 0f, 1f, 2f, 3f, 3f, 3f, 3f };
     }
 }

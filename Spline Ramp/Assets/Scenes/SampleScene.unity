@@ -4351,8 +4351,8 @@ MonoBehaviour:
   translation_offset: {x: 0, y: 0, z: 0}
   rotation_offset: {x: 0, y: 0, z: 0}
   boundary: {fileID: 1735298989}
-  moving: 0
-  rotating: 0
+  moving_ramp: 0
+  rotating_ramp: 0
   editing_ramp: 0
   node_index: 0
   mouse_over_ui: 0

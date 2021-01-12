@@ -26,8 +26,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private Vector3 rotation_offset;
     [SerializeField]
-    private Transform boundary;
-    [SerializeField]
     private bool moving_ramp;
     [SerializeField]
     private bool rotating_ramp;
@@ -114,8 +112,6 @@ public class LevelManager : MonoBehaviour
             translation_offset = Vector3.zero;
             editing_ramp = false;
             node_index = 0;
-
-            
         }
     }
 
@@ -127,6 +123,10 @@ public class LevelManager : MonoBehaviour
         Vector3 new_position;
         if (Input.GetMouseButtonDown(0))
         {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit.collider != null)
+                return;
+
             new_position = GetMouseWorldCoordinates();
             if (!ValidCoordinates(new_position))
                 return;
@@ -139,6 +139,9 @@ public class LevelManager : MonoBehaviour
                         break;
                     case RampType.Bezier:
                         ramp = new BezierRamp(new_position);
+                        break;
+                    case RampType.Hermite:
+                        ramp = new HermiteRamp(new_position);
                         break;
                     default:
                         ramp = new BSplineRamp(new_position);
@@ -260,12 +263,14 @@ public class LevelManager : MonoBehaviour
 
         if (editing_mode == EditingMode.None)
         {
+            ramp.AllowEdit();
             editing_mode = EditingMode.EditRampMode;
             ui_manager.DisplayHideLevelManagerUI(false);
             ui_manager.DisplayHideEditRampUI(true);
         }
         else if (editing_mode == EditingMode.EditRampMode)
         {
+            ramp.DenyEdit();
             editing_mode = EditingMode.None;
             ui_manager.DisplayHideLevelManagerUI(true);
             ui_manager.DisplayHideEditRampUI(false);
