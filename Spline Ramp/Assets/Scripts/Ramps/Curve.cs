@@ -66,7 +66,6 @@ namespace Assets.Scripts.Ramps
             return 0f;
         }
 
-
         private static float BernsteinPolynomial(int k, int i, float t)
         {
             return (Factorial(k) / (Factorial(i) * Factorial(k - i))) * Mathf.Pow(1 - t, k - i) * Mathf.Pow(t, i);
@@ -77,6 +76,18 @@ namespace Assets.Scripts.Ramps
             if (i == 0)
                 return 1;
             return Factorial(i - 1) * i;
+        }
+
+        public static float CrescendoInterpolation(float t)
+        {
+            Vector3[] support_points ={ new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 1, 0)};
+            return BezierCurve(t, support_points).y;
+        }
+
+        public static float EaseOutInterpolation(float t)
+        {
+            Vector3[] support_points = { new Vector3(0, 0, 0), new Vector3(0.35f, 0.75f, 0), new Vector3(1, 1, 0) };
+            return BezierCurve(t, support_points).y;
         }
     }
 }
