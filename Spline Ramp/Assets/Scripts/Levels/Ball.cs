@@ -1,14 +1,18 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 using Assets.Scripts;
 
-public class BallController : MonoBehaviour
+public class Ball : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody2D rigidbody2D;
     [SerializeField]
     private bool accelerate;
+    [SerializeField]
+    public UnityEvent pick_coin;
+    public UnityEvent win;
 
     private void OnEnable()
     {
@@ -30,16 +34,19 @@ public class BallController : MonoBehaviour
     {
         if(collision.gameObject.layer==Constants.GOAL_LAYER_MASK)
         {
-            Debug.Log("Win!");
+            win.Invoke();
         }
-
+        if(collision.gameObject.layer==Constants.COIN_LAYER_MASK)
+        {
+            collision.gameObject.SetActive(false);
+            pick_coin.Invoke();
+        }
     }
 
     IEnumerator Accelerate()
     {
         while(accelerate)
         {
-            Debug.Log(String.Format("Velocity: {0} {1}", rigidbody2D.velocity.x, rigidbody2D.velocity.y));
             rigidbody2D.velocity += rigidbody2D.velocity * Constants.ACCELERATION_FACTOR;
             yield return new WaitForSeconds(Constants.ACCELERATION_TICK);
         }

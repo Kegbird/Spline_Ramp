@@ -18,11 +18,15 @@ namespace Assets.Scripts.Ramps
             ramp_gameobject.layer = LayerMask.NameToLayer("Ramp");
             ramp_gameobject.transform.position = starting_point;
             line_renderer = ramp_gameobject.AddComponent<LineRenderer>();
+            Material ramp_material = Resources.Load("Materials/Ramp_mat", typeof(Material)) as Material;
+            line_renderer.materials = new Material[] { ramp_material };
             line_renderer.startWidth = Constants.RAMP_EDGE_RADIUS;
             line_renderer.endWidth = Constants.RAMP_EDGE_RADIUS;
             line_renderer.useWorldSpace = false;
             edge_collider = ramp_gameobject.AddComponent<EdgeCollider2D>();
-            edge_collider.edgeRadius = Constants.RAMP_EDGE_RADIUS;
+            edge_collider.edgeRadius = Constants.RAMP_EDGE_RADIUS-0.1f;
+            PhysicsMaterial2D ramp_physics_material = Resources.Load("Physics Materials/Ramp_Physics_Mat", typeof(PhysicsMaterial2D)) as PhysicsMaterial2D;
+            edge_collider.sharedMaterial = ramp_physics_material;
         }
 
         public void DestroyRamp()
@@ -44,7 +48,7 @@ namespace Assets.Scripts.Ramps
             sprite_renderer.sprite = Resources.Load<Sprite>("Sprites/Point");
             sprite_renderer.sortingOrder = 1;
             CircleCollider2D collider = node.AddComponent<CircleCollider2D>();
-            collider.radius = 0.1f;
+            collider.radius = 0.4f;
             collider.isTrigger = true;
         }
 
@@ -90,7 +94,7 @@ namespace Assets.Scripts.Ramps
             {
                 Vector3 world_node_position = ramp_gameobject.transform.TransformPoint(ramp_gameobject.transform.GetChild(j).localPosition);
                 world_node_position += offset;
-                if (Constants.MIN_X_BOUNDARY > world_node_position.x || world_node_position.x > Constants.MAX_X_BOUNDARY)
+                if (world_node_position.x > Constants.MAX_X_BOUNDARY)
                     return;
             }
             ramp_gameobject.transform.position = new_position;
@@ -101,21 +105,9 @@ namespace Assets.Scripts.Ramps
             return ramp_gameobject.transform.position;
         }
         
-        public virtual void AllowEdit()
-        {
-            for (int i = 0; i < ramp_gameobject.transform.childCount; i++)
-                ramp_gameobject.transform.GetChild(i).gameObject.SetActive(true);
-        }
-
-        public virtual void DenyEdit()
-        {
-            for (int i = 0; i < ramp_gameobject.transform.childCount; i++)
-                ramp_gameobject.transform.GetChild(i).gameObject.SetActive(false);
-        }
-
         public virtual void Edit(Vector3 position, int node_index)
         {
-            position.x = Mathf.Clamp(position.x, Constants.MIN_X_BOUNDARY, Constants.MAX_X_BOUNDARY);
+            position.x = Mathf.Clamp(position.x, -100f, Constants.MAX_X_BOUNDARY);
             position = ramp_gameobject.transform.InverseTransformPoint(position);
             ramp_gameobject.transform.GetChild(node_index).transform.localPosition = position;
         }
