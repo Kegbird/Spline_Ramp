@@ -36,6 +36,10 @@ namespace Assets.Scripts.Ramps
             GameObject.Destroy(edge_collider);
         }
 
+        public virtual void AllowEdit() { }
+
+        public virtual void DenyEdit() { }
+
         public virtual void AddPoint(Vector3 node_position)
         {
             node_position = ramp_gameobject.transform.InverseTransformPoint(node_position);

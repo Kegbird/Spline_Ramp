@@ -26,7 +26,7 @@ namespace Assets.Scripts.Levels
         {
             if (index < nodes.Length)
             {
-                transform.position = Vector3.Lerp(start, destination, (curve.Evaluate((Time.time - t) / 2f)));
+                transform.position = Vector3.Lerp(start, destination, (curve.Evaluate((Time.time - t) / 2f))*speed);
 
                 if (transform.position == nodes[index].position)
                 {

@@ -11,6 +11,8 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private bool accelerate;
     [SerializeField]
+    public AudioManager audio_manager;
+    [SerializeField]
     public UnityEvent pick_coin;
     public UnityEvent win;
 
@@ -25,6 +27,7 @@ public class Ball : MonoBehaviour
         {
             accelerate = true;
             StartCoroutine(Accelerate());
+            StartCoroutine(PlayAccelerateSound());
         }
         else if (Input.GetKeyUp(KeyCode.A))
             accelerate = false;
@@ -49,6 +52,16 @@ public class Ball : MonoBehaviour
         {
             rigidbody2D.velocity += rigidbody2D.velocity * Constants.ACCELERATION_FACTOR;
             yield return new WaitForSeconds(Constants.ACCELERATION_TICK);
+        }
+        yield return null;
+    }
+
+    IEnumerator PlayAccelerateSound()
+    {
+        while (accelerate)
+        {
+            audio_manager.PlayTurboSound();
+            yield return new WaitForSeconds(0.1f);
         }
         yield return null;
     }

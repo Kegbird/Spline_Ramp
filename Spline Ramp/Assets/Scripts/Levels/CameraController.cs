@@ -11,8 +11,6 @@ public class CameraController : MonoBehaviour
     private Transform ball_transform;
     [SerializeField]
     private Vector3 last_pan_position;
-    [SerializeField]
-    private Transform camera_default_transform;
 
     // Update is called once per frame
     private void Update()
@@ -41,9 +39,6 @@ public class CameraController : MonoBehaviour
     public void StopSimulation()
     {
         simulation_lock_ball = false;
-        transform.position = new Vector3(camera_default_transform.position.x, 
-                                         camera_default_transform.position.y, 
-                                         transform.position.z);
     }
 
     private void Zoom()

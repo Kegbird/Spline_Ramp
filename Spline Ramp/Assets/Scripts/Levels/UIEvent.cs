@@ -216,6 +216,11 @@ namespace Assets.Scripts.Levels
             settings_btn.GetComponent<Button>().interactable = value;
         }
 
+        public void EnableDisableInteractionDeleteBtn(bool value)
+        {
+            delete_btn.GetComponent<Button>().interactable = value;
+        }
+
         public void EnableDisableInteractionRampTypeDropdown(bool value)
         {
             ramp_type_dropdown.GetComponent<Dropdown>().interactable = value;
@@ -247,6 +252,7 @@ namespace Assets.Scripts.Levels
             {
                 create_ramp_btn.GetComponent<Button>().interactable = false;
                 move_btn.GetComponent<Button>().interactable = true;
+                delete_btn.GetComponent<Button>().interactable = true;
                 rotate_btn.GetComponent<Button>().interactable = true;
                 edit_btn.GetComponent<Button>().interactable = true;
             }
@@ -254,6 +260,7 @@ namespace Assets.Scripts.Levels
             {
                 create_ramp_btn.GetComponent<Button>().interactable = true;
                 move_btn.GetComponent<Button>().interactable = false;
+                delete_btn.GetComponent<Button>().interactable = false;
                 rotate_btn.GetComponent<Button>().interactable = false;
                 edit_btn.GetComponent<Button>().interactable = false;
             }

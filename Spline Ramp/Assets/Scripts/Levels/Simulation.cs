@@ -9,6 +9,8 @@ namespace Assets.Scripts.Levels
     class Simulation : MonoBehaviour
     {
         [SerializeField]
+        AudioManager audio_manager;
+        [SerializeField]
         private Ball ball;
         [SerializeField]
         private LevelEdit level_edit;
@@ -31,6 +33,7 @@ namespace Assets.Scripts.Levels
 
         private void Awake()
         {
+            audio_manager = GetComponent<AudioManager>();
             ui_event = GetComponent<UIEvent>();
             level_edit = GetComponent<LevelEdit>();
             coins_picked = 0;
@@ -40,32 +43,30 @@ namespace Assets.Scripts.Levels
         {
             if (!simulation_running)
             {
-                GameObject tmp = Resources.Load<GameObject>("Ball");
+                audio_manager.PlayButtonPressedSound();
                 ui_event.SetStopImage();
-                ball_gameobject = GameObject.Instantiate(tmp);
+                ball_gameobject = GameObject.Instantiate(Resources.Load<GameObject>("Ball"));
                 ball = ball_gameobject.GetComponent<Ball>();
-                tmp.transform.position = ball_spawn.position;
+                ball_gameobject.transform.position = ball_spawn.position;
                 ball.win = new UnityEngine.Events.UnityEvent();
                 ball.win.AddListener(Win);
                 ball.pick_coin = new UnityEngine.Events.UnityEvent();
                 ball.pick_coin.AddListener(RegisterCoin);
+                ball.audio_manager = audio_manager;
                 simulation_running = true;
                 ui_event.DisplayHideCoinIndicators(true);
             }
             else
             {
+                audio_manager.PlayButtonPressedSound();
                 ball.StopAllCoroutines();
                 simulation_running = false;
                 Destroy(ball_gameobject);
                 camera_controller.StopSimulation();
-
-                if (!win)
-                { 
-                    ui_event.SetPlayImage();
-                    ui_event.DisplayHideCoinIndicators(false);
-                    EnableAllCoins();
-                    ResetPickedCoins();
-                }
+                ui_event.SetPlayImage();
+                ui_event.DisplayHideCoinIndicators(false);
+                EnableAllCoins();
+                ResetPickedCoins();
             }
         }
 
@@ -73,15 +74,22 @@ namespace Assets.Scripts.Levels
         {
             return simulation_running;
         }
-        
+
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.B))
-                StartStopSimulation();
-            if(simulation_running)
+            if (simulation_running)
             {
-                if(ball_gameobject.transform.position.y<=Constants.Y_KILL)
-                    StartStopSimulation();
+                if (ball_gameobject.transform.position.y <= Constants.Y_KILL)
+                {
+                    ball.StopAllCoroutines();
+                    simulation_running = false;
+                    Destroy(ball_gameobject);
+                    camera_controller.StopSimulation();
+                    ui_event.SetPlayImage();
+                    ui_event.DisplayHideCoinIndicators(false);
+                    EnableAllCoins();
+                    ResetPickedCoins();
+                }
             }
         }
 
@@ -93,6 +101,7 @@ namespace Assets.Scripts.Levels
 
         public void RegisterCoin()
         {
+            audio_manager.PlayCoinPickedSound();
             ui_event.FillCoinIndicator(coins_picked);
             coins_picked++;
         }
@@ -105,6 +114,7 @@ namespace Assets.Scripts.Levels
 
         public void Win()
         {
+            audio_manager.PlayWinSound();
             ui_event.EnableDisableInteractionPlaySettingsButtons(false);
             win = true;
             ui_event.DisplayWinPopUp(coins_picked);
@@ -112,6 +122,7 @@ namespace Assets.Scripts.Levels
 
         public void ReturnLevel()
         {
+            audio_manager.PlayButtonPressedSound();
             win = false;
             ui_event.SetPlayImage();
             ui_event.DisplayHideCoinIndicators(false);
@@ -123,6 +134,7 @@ namespace Assets.Scripts.Levels
 
         public void LoadNextLevel()
         {
+            audio_manager.PlayButtonPressedSound();
             IEnumerator ChangeScene()
             {
                 ui_event.AppearBlackScreen();

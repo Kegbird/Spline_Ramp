@@ -17,6 +17,8 @@ namespace Assets.Scripts.Levels
         }
 
         [SerializeField]
+        AudioManager audio_manager;
+        [SerializeField]
         private Simulation simulation;
         [SerializeField]
         private UIEvent ui_event;
@@ -45,6 +47,7 @@ namespace Assets.Scripts.Levels
         private void Awake()
         {
             editing_mode = EditingMode.None;
+            audio_manager = GetComponent<AudioManager>();
             simulation = GetComponent<Simulation>();
             ui_event = GetComponent<UIEvent>();
         }
@@ -54,23 +57,6 @@ namespace Assets.Scripts.Levels
             if (simulation.IsSimulationRunning())
                 return;
 
-            if (Input.GetKeyDown(KeyCode.E))
-                SetUnsetEditingMode();
-            if (Input.GetKeyDown(KeyCode.T))
-                SetUnsetMoveMode();
-            if (Input.GetKeyDown(KeyCode.D))
-                DeleteRamp();
-            if (Input.GetKeyDown(KeyCode.R))
-                SetUnsetRotateMode();
-            if (Input.GetKeyDown(KeyCode.M))
-                SetUnsetCreateRampMode();
-            if (Input.GetKeyDown(KeyCode.P))
-                SetUnsetEditRampMode();
-            PerformEditMode();
-        }
-
-        private void PerformEditMode()
-        {
             switch (editing_mode)
             {
                 case EditingMode.None:
@@ -153,11 +139,7 @@ namespace Assets.Scripts.Levels
                     ui_event.EnableDisableInteractionRampTypeDropdown(false);
                 }
                 ramp.AddPoint(new_position);
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                SetUnsetCreateRampMode();
-                return;
+                audio_manager.TapSound();
             }
         }
 
@@ -209,6 +191,7 @@ namespace Assets.Scripts.Levels
 
         public void DeleteRamp()
         {
+            audio_manager.PlayButtonPressedSound();
             if (editing && editing_mode == EditingMode.None && ramp != null)
             {
                 ramp.DestroyRamp();
@@ -216,6 +199,7 @@ namespace Assets.Scripts.Levels
                 ui_event.EnableDisableInteractionMenuEditBtn(false);
                 ui_event.EnableDisableInteractionCreateRampBtn(true);
                 ui_event.EnableDisableInteractionMoveBtn(false);
+                ui_event.EnableDisableInteractionDeleteBtn(false);
                 ui_event.EnableDisableInteractionRotateBtn(false);
                 ui_event.EnableDisableInteractionEditBtn(false);
             }
@@ -223,6 +207,7 @@ namespace Assets.Scripts.Levels
 
         public void SetUnsetEditingMode()
         {
+            audio_manager.PlayButtonPressedSound();
             if (editing_mode == EditingMode.None)
             {
                 editing = !editing;
@@ -243,7 +228,7 @@ namespace Assets.Scripts.Levels
         {
             if (!editing || ramp == null)
                 return;
-
+            audio_manager.PlayButtonPressedSound();
             if (editing_mode == EditingMode.None)
             {
                 editing_mode = EditingMode.MoveMode;
@@ -252,6 +237,7 @@ namespace Assets.Scripts.Levels
             }
             else if (editing_mode == EditingMode.MoveMode)
             {
+                audio_manager.PlayConfirmSound();
                 editing_mode = EditingMode.None;
                 ui_event.DisplayHideLevelManager(true);
                 ui_event.DisplayHideMove(false);
@@ -263,15 +249,17 @@ namespace Assets.Scripts.Levels
         {
             if (!editing || ramp == null)
                 return;
-
+            audio_manager.PlayButtonPressedSound();
             if (editing_mode == EditingMode.None)
             {
                 editing_mode = EditingMode.EditRampMode;
                 ui_event.DisplayHideLevelManager(false);
                 ui_event.DisplayHideEditRamp(true);
+                ramp.AllowEdit();
             }
             else if (editing_mode == EditingMode.EditRampMode)
             {
+                audio_manager.PlayConfirmSound();
                 editing_mode = EditingMode.None;
                 ui_event.DisplayHideLevelManager(true);
                 ui_event.DisplayHideEditRamp(false);
@@ -287,7 +275,7 @@ namespace Assets.Scripts.Levels
         {
             if (!editing)
                 return;
-
+            audio_manager.PlayButtonPressedSound();
             ui_event.EnableDisableInteractionMenuEditBtn(ramp != null);
             if (editing_mode == EditingMode.None && ramp == null)
             {
@@ -297,6 +285,7 @@ namespace Assets.Scripts.Levels
             }
             else if (editing_mode == EditingMode.CreateRampMode)
             {
+                audio_manager.PlayConfirmSound();
                 if (ramp != null)
                     StartCoroutine(ramp.BuildRamp());
                 mouse_over_ui = false;
@@ -310,7 +299,7 @@ namespace Assets.Scripts.Levels
         {
             if (!editing || ramp == null)
                 return;
-
+            audio_manager.PlayButtonPressedSound();
             if (editing_mode == EditingMode.None)
             {
                 editing_mode = EditingMode.RotateMode;
@@ -320,6 +309,7 @@ namespace Assets.Scripts.Levels
             }
             else if (editing_mode == EditingMode.RotateMode)
             {
+                audio_manager.PlayConfirmSound();
                 editing_mode = EditingMode.None;
                 ui_event.DisplayHideLevelManager(true);
                 ui_event.DisplayHideRotate(false);

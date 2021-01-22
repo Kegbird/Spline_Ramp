@@ -8,6 +8,7 @@ TagManager:
   - Pivot
   - Goal
   - Node
+  - Obstacle
   layers:
   - Default
   - TransparentFX

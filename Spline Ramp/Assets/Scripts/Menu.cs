@@ -32,9 +32,14 @@ public class Menu : MonoBehaviour
     RectTransform[] levels;
     [SerializeField]
     RectTransform play_back_btn;
+    [SerializeField]
+    AudioSource audio_source;
+    [SerializeField]
+    AudioClip button_pressed_fx;
 
     private void Start()
     {
+        audio_source = GetComponent<AudioSource>();
         FadeBlackScreen();
     }
 
@@ -80,23 +85,27 @@ public class Menu : MonoBehaviour
 
     public void PlayBtnClick()
     {
+        PlayButtonPressedSound();
         DisappearMainMenu();
         AppearPlay();
     }
 
     public void PlayBackToMenuClick()
     {
+        PlayButtonPressedSound();
         DisappearPlay();
     }
 
     public void HowToPlayBtnClick()
     {
+        PlayButtonPressedSound();
         DisappearMainMenu();
         AppearHowToPlay();
     }
 
     public void HowToPlayBackToMenuClick()
     {
+        PlayButtonPressedSound();
         DisappearHowToPlay();
     }
 
@@ -195,5 +204,11 @@ public class Menu : MonoBehaviour
             AppearMainMenu();
         }
         StartCoroutine(Delay());
+    }
+
+    public void PlayButtonPressedSound()
+    {
+        audio_source.clip = button_pressed_fx;
+        audio_source.Play();
     }
 }

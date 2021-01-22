@@ -19,6 +19,19 @@ namespace Assets.Scripts.Ramps
             node.transform.localPosition = node_position;
         }
 
+        public override void AllowEdit()
+        {
+            for (int i = 0; i < ramp_gameobject.transform.childCount; i++)
+                ramp_gameobject.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+        }
+
+        public override void DenyEdit()
+        {
+            for (int i = 0; i < ramp_gameobject.transform.childCount; i++)
+                ramp_gameobject.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+
+        }
+
         public override IEnumerator BuildRamp()
         {
             int num_points = ((ramp_gameobject.transform.childCount - 1) * Constants.CURVE_STEPS) + 1;
@@ -39,7 +52,7 @@ namespace Assets.Scripts.Ramps
                     line_renderer.SetPosition(k, points[k]);
                 }
             }
-
+            DenyEdit();
             edge_collider.points = points;
             yield return null;
         }
