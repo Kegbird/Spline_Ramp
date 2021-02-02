@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,6 +25,8 @@ public class Menu : MonoBehaviour
     [SerializeField]
     RectTransform tip_2;
     [SerializeField]
+    RectTransform tip_3;
+    [SerializeField]
     RectTransform howtoplay_back_btn;
     //Play ui elements
     [SerializeField]
@@ -36,6 +39,23 @@ public class Menu : MonoBehaviour
     AudioSource audio_source;
     [SerializeField]
     AudioClip button_pressed_fx;
+    [SerializeField]
+    Dictionary<int, Sprite[]> level_sprite_coins;
+
+    private void Awake()
+    {
+        level_sprite_coins = new Dictionary<int, Sprite[]>();
+        for(int i=0; i<Constants.LEVEL_NUMBER; i++)
+        {
+            level_sprite_coins[i] = new Sprite[4]
+            {
+                Resources.Load<Sprite>("Levels/Level_" + i + "/Coin_" + 0),
+                Resources.Load<Sprite>("Levels/Level_" + i + "/Coin_" + 1),
+                Resources.Load<Sprite>("Levels/Level_" + i + "/Coin_" + 2),
+                Resources.Load<Sprite>("Levels/Level_" + i + "/Coin_" + 3),
+            };
+        }
+    }
 
     private void Start()
     {
@@ -144,6 +164,8 @@ public class Menu : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
             LeanTween.moveY(tip_2, 0, 0.25f);
             yield return new WaitForSeconds(0.25f);
+            LeanTween.moveY(tip_3, 0, 0.25f);
+            yield return new WaitForSeconds(0.25f);
             LeanTween.moveY(howtoplay_back_btn, 0, 0.25f);
             yield return new WaitForSeconds(0.25f);
             howtoplay_back_btn.GetComponent<Button>().enabled = true;
@@ -157,6 +179,8 @@ public class Menu : MonoBehaviour
         {
             howtoplay_back_btn.GetComponent<Button>().enabled = false;
             LeanTween.moveY(howtoplay_back_btn, -1000, 0.25f);
+            yield return new WaitForSeconds(0.25f);
+            LeanTween.moveY(tip_3, -1000, 0.25f);
             yield return new WaitForSeconds(0.25f);
             LeanTween.moveY(tip_2, -1000, 0.25f);
             yield return new WaitForSeconds(0.25f);
@@ -178,6 +202,11 @@ public class Menu : MonoBehaviour
             LeanTween.moveY(chooselevel_title, 0, 0.25f);
             for(int i=0; i<levels.Length; i++)
             {
+                if(Constants.coin_per_level.ContainsKey(i))
+                    levels[i].GetComponent<Image>().sprite = level_sprite_coins[i][Constants.coin_per_level[i]];
+                else
+                    levels[i].GetComponent<Image>().sprite = level_sprite_coins[i][0];
+
                 LeanTween.moveY(levels[i], 0, 0.25f);
                 yield return new WaitForSeconds(0.1f);
             }

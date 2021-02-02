@@ -66,9 +66,9 @@ namespace Assets.Scripts.Ramps
             rotation_ball.name = "Rotation Gizmo";
             rotation_ball.transform.position = new Vector3(centre.x + 2 * Mathf.Cos(ramp_gameobject.transform.rotation.z * Mathf.Deg2Rad), centre.y + 2 * Mathf.Sin(ramp_gameobject.transform.rotation.z * Mathf.Deg2Rad));
             SpriteRenderer sprite_renderer = rotation_ball.AddComponent<SpriteRenderer>();
-            sprite_renderer.sprite = Resources.Load<Sprite>("Sprites/Point");
+            sprite_renderer.sprite = Resources.Load<Sprite>("Sprites/RotationPivot");
             CircleCollider2D collider = rotation_ball.AddComponent<CircleCollider2D>();
-            collider.radius = 0.1f;
+            collider.radius = 0.4f;
             collider.isTrigger = true;
             rotation_ball.layer = Constants.ROTATION_GIZMO_LAYER_MASK;
             rotation_ball.transform.parent = axis.transform;

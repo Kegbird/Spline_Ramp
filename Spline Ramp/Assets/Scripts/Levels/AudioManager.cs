@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip coin_pick_fx;
     [SerializeField]
-    private AudioClip turbo_fx;
+    private AudioClip bounce_fx;
 
     private void Awake()
     {
@@ -52,12 +52,6 @@ public class AudioManager : MonoBehaviour
     public void PlayCoinPickedSound()
     {
         audio_source.clip = coin_pick_fx;
-        audio_source.Play();
-    }
-
-    public void PlayTurboSound()
-    {
-        audio_source.clip = turbo_fx;
         audio_source.Play();
     }
 }

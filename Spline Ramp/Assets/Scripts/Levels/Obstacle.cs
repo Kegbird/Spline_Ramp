@@ -7,7 +7,6 @@ namespace Assets.Scripts.Levels
     {
         public Transform[] nodes;
         public int index;
-        public float speed;
         public float t;
         private Vector3 start;
         private Vector3 destination;
@@ -26,9 +25,10 @@ namespace Assets.Scripts.Levels
         {
             if (index < nodes.Length)
             {
-                transform.position = Vector3.Lerp(start, destination, (curve.Evaluate((Time.time - t) / 2f))*speed);
+                float interpolation = curve.Evaluate((Time.time - t));
+                transform.position = Vector3.Lerp(start, destination, interpolation);
 
-                if (transform.position == nodes[index].position)
+                if (interpolation>=1)
                 {
                     start = destination;
                     t = Time.time;

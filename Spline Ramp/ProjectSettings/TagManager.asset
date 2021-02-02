@@ -4,11 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Interactable
   - Pivot
   - Goal
   - Node
   - Obstacle
+  - Coin
+  - Spawn
+  - Interactable
   layers:
   - Default
   - TransparentFX
@@ -24,8 +26,8 @@ TagManager:
   - RotationGizmo
   - Arrow
   - Coin
-  - 
-  - 
+  - Obstacle
+  - Mattress
   - 
   - 
   - 

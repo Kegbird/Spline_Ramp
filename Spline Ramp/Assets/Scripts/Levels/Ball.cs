@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
 using Assets.Scripts;
+using Assets.Scripts.Levels;
 
 public class Ball : MonoBehaviour
 {
@@ -11,14 +12,26 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private bool accelerate;
     [SerializeField]
-    public AudioManager audio_manager;
+    public UIManager ui_manager;
     [SerializeField]
     public UnityEvent pick_coin;
     public UnityEvent win;
+    [SerializeField]
+    public AudioSource audio_source;
+    [SerializeField]
+    public AudioClip bounce_fx;
+    [SerializeField]
+    public AudioClip obstacle_fx;
 
     private void OnEnable()
     {
+        audio_source = GetComponent<AudioSource>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnDisable()
+    {
+        ui_manager.HideAccelerationText();
     }
 
     private void Update()
@@ -27,7 +40,6 @@ public class Ball : MonoBehaviour
         {
             accelerate = true;
             StartCoroutine(Accelerate());
-            StartCoroutine(PlayAccelerateSound());
         }
         else if (Input.GetKeyUp(KeyCode.A))
             accelerate = false;
@@ -35,34 +47,46 @@ public class Ball : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer==Constants.GOAL_LAYER_MASK)
+        if (collision.gameObject.layer == Constants.GOAL_LAYER_MASK)
         {
             win.Invoke();
         }
-        if(collision.gameObject.layer==Constants.COIN_LAYER_MASK)
+        if (collision.gameObject.layer == Constants.COIN_LAYER_MASK)
         {
             collision.gameObject.SetActive(false);
             pick_coin.Invoke();
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == Constants.OBSTACLE_LAYER_MASK)
+            PlayObstacleSound();
+        if (collision.gameObject.layer == Constants.MATTRESS_LAYER_MASK)
+            PlayBounceSound();
+    }
+
     IEnumerator Accelerate()
     {
-        while(accelerate)
+        ui_manager.ShowAccelerationText();
+        while (accelerate)
         {
             rigidbody2D.velocity += rigidbody2D.velocity * Constants.ACCELERATION_FACTOR;
             yield return new WaitForSeconds(Constants.ACCELERATION_TICK);
         }
+        ui_manager.HideAccelerationText();
         yield return null;
     }
 
-    IEnumerator PlayAccelerateSound()
+    public void PlayBounceSound()
     {
-        while (accelerate)
-        {
-            audio_manager.PlayTurboSound();
-            yield return new WaitForSeconds(0.1f);
-        }
-        yield return null;
+        audio_source.clip = bounce_fx;
+        audio_source.Play();
+    }
+
+    public void PlayObstacleSound()
+    {
+        audio_source.clip = obstacle_fx;
+        audio_source.Play();
     }
 }

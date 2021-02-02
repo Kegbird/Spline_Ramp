@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Assets.Scripts;
 using Assets.Scripts.Ramps;
-
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Levels
 {
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Levels
         [SerializeField]
         private Simulation simulation;
         [SerializeField]
-        private UIEvent ui_event;
+        private UIManager ui_manager;
         [SerializeField]
         private bool editing;
         [SerializeField]
@@ -43,13 +43,12 @@ namespace Assets.Scripts.Levels
         [SerializeField]
         private Ramp ramp;
 
-
         private void Awake()
         {
             editing_mode = EditingMode.None;
             audio_manager = GetComponent<AudioManager>();
             simulation = GetComponent<Simulation>();
-            ui_event = GetComponent<UIEvent>();
+            ui_manager = GetComponent<UIManager>();
         }
 
         private void Update()
@@ -121,7 +120,7 @@ namespace Assets.Scripts.Levels
                     return;
                 if (ramp == null)
                 {
-                    switch (ui_event.GetRampType())
+                    switch (ui_manager.GetRampType())
                     {
                         case RampType.Segment:
                             ramp = new SegmentRamp(new_position);
@@ -136,7 +135,7 @@ namespace Assets.Scripts.Levels
                             ramp = new BSplineRamp(new_position);
                             break;
                     }
-                    ui_event.EnableDisableInteractionRampTypeDropdown(false);
+                    ui_manager.EnableDisableInteractionRampTypeDropdown(false);
                 }
                 ramp.AddPoint(new_position);
                 audio_manager.TapSound();
@@ -196,12 +195,12 @@ namespace Assets.Scripts.Levels
             {
                 ramp.DestroyRamp();
                 ramp = null;
-                ui_event.EnableDisableInteractionMenuEditBtn(false);
-                ui_event.EnableDisableInteractionCreateRampBtn(true);
-                ui_event.EnableDisableInteractionMoveBtn(false);
-                ui_event.EnableDisableInteractionDeleteBtn(false);
-                ui_event.EnableDisableInteractionRotateBtn(false);
-                ui_event.EnableDisableInteractionEditBtn(false);
+                ui_manager.EnableDisableInteractionMenuEditBtn(false);
+                ui_manager.EnableDisableInteractionCreateRampBtn(true);
+                ui_manager.EnableDisableInteractionMoveBtn(false);
+                ui_manager.EnableDisableInteractionDeleteBtn(false);
+                ui_manager.EnableDisableInteractionRotateBtn(false);
+                ui_manager.EnableDisableInteractionEditBtn(false);
             }
         }
 
@@ -214,13 +213,13 @@ namespace Assets.Scripts.Levels
                 if (editing)
                 {
                     simulation.enabled = false;
-                    ui_event.DisplayHideSimulation(false);
-                    ui_event.DisplayHideLevelManager(true);
+                    ui_manager.DisplayHideSimulation(false);
+                    ui_manager.DisplayHideLevelManager(true);
                     return;
                 }
                 simulation.enabled = true;
-                ui_event.DisplayHideSimulation(true);
-                ui_event.DisplayHideLevelManager(false);
+                ui_manager.DisplayHideSimulation(true);
+                ui_manager.DisplayHideLevelManager(false);
             }
         }
 
@@ -232,15 +231,15 @@ namespace Assets.Scripts.Levels
             if (editing_mode == EditingMode.None)
             {
                 editing_mode = EditingMode.MoveMode;
-                ui_event.DisplayHideLevelManager(false);
-                ui_event.DisplayHideMove(true);
+                ui_manager.DisplayHideLevelManager(false);
+                ui_manager.DisplayHideMove(true);
             }
             else if (editing_mode == EditingMode.MoveMode)
             {
                 audio_manager.PlayConfirmSound();
                 editing_mode = EditingMode.None;
-                ui_event.DisplayHideLevelManager(true);
-                ui_event.DisplayHideMove(false);
+                ui_manager.DisplayHideLevelManager(true);
+                ui_manager.DisplayHideMove(false);
                 moving_ramp = false;
             }
         }
@@ -253,16 +252,16 @@ namespace Assets.Scripts.Levels
             if (editing_mode == EditingMode.None)
             {
                 editing_mode = EditingMode.EditRampMode;
-                ui_event.DisplayHideLevelManager(false);
-                ui_event.DisplayHideEditRamp(true);
+                ui_manager.DisplayHideLevelManager(false);
+                ui_manager.DisplayHideEditRamp(true);
                 ramp.AllowEdit();
             }
             else if (editing_mode == EditingMode.EditRampMode)
             {
                 audio_manager.PlayConfirmSound();
                 editing_mode = EditingMode.None;
-                ui_event.DisplayHideLevelManager(true);
-                ui_event.DisplayHideEditRamp(false);
+                ui_manager.DisplayHideLevelManager(true);
+                ui_manager.DisplayHideEditRamp(false);
                 mouse_over_ui = false;
                 editing_ramp = false;
                 translation_offset = Vector3.zero;
@@ -276,12 +275,12 @@ namespace Assets.Scripts.Levels
             if (!editing)
                 return;
             audio_manager.PlayButtonPressedSound();
-            ui_event.EnableDisableInteractionMenuEditBtn(ramp != null);
+            ui_manager.EnableDisableInteractionMenuEditBtn(ramp != null);
             if (editing_mode == EditingMode.None && ramp == null)
             {
                 editing_mode = EditingMode.CreateRampMode;
-                ui_event.DisplayHideLevelManager(false);
-                ui_event.DisplayHideCreateRamp(true);
+                ui_manager.DisplayHideLevelManager(false);
+                ui_manager.DisplayHideCreateRamp(true);
             }
             else if (editing_mode == EditingMode.CreateRampMode)
             {
@@ -290,8 +289,8 @@ namespace Assets.Scripts.Levels
                     StartCoroutine(ramp.BuildRamp());
                 mouse_over_ui = false;
                 editing_mode = EditingMode.None;
-                ui_event.DisplayHideLevelManager(true);
-                ui_event.DisplayHideCreateRamp(false);
+                ui_manager.DisplayHideLevelManager(true);
+                ui_manager.DisplayHideCreateRamp(false);
             }
         }
 
@@ -303,16 +302,16 @@ namespace Assets.Scripts.Levels
             if (editing_mode == EditingMode.None)
             {
                 editing_mode = EditingMode.RotateMode;
-                ui_event.DisplayHideLevelManager(false);
-                ui_event.DisplayHideRotate(true);
+                ui_manager.DisplayHideLevelManager(false);
+                ui_manager.DisplayHideRotate(true);
                 ramp.DisplayRotationGizmo();
             }
             else if (editing_mode == EditingMode.RotateMode)
             {
                 audio_manager.PlayConfirmSound();
                 editing_mode = EditingMode.None;
-                ui_event.DisplayHideLevelManager(true);
-                ui_event.DisplayHideRotate(false);
+                ui_manager.DisplayHideLevelManager(true);
+                ui_manager.DisplayHideRotate(false);
                 ramp.HideRotationGizmo();
                 rotating_ramp = false;
             }

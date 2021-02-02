@@ -1,4 +1,5 @@
-﻿using UnityEngine; 
+﻿using System.Collections.Generic;
+using UnityEngine; 
 
 namespace Assets.Scripts
 {
@@ -22,12 +23,15 @@ namespace Assets.Scripts
         public static int SUPPORT_NODE_LAYER_MASK = LayerMask.NameToLayer("SupportNode");
         public static int ARROW_LAYER_MASK = LayerMask.NameToLayer("Arrow");
         public static int COIN_LAYER_MASK = LayerMask.NameToLayer("Coin");
+        public static int MATTRESS_LAYER_MASK = LayerMask.NameToLayer("Mattress");
+        public static int OBSTACLE_LAYER_MASK = LayerMask.NameToLayer("Obstacle");
         public static int CURVE_STEPS = 20;
         public static float DERIVATIVE_MAGNITUDE = 5f;
         public static int BSPLINE_DEGREE = 3;
         public static int COIN_NUMBER = 3;
         public static int LEVEL_NUMBER = 6;
-        public static int MENU_SCENE_INDEX = 8;
+        public static int MENU_SCENE_INDEX = 6;
+        public static Dictionary<int, int> coin_per_level = new Dictionary<int, int>();
         public static float[] KNOTS_4 = { 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f};
         public static float[] KNOTS_5 = { 0f, 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f };
         public static float[] KNOTS_6 = { 0f, 0f, 0f, 0f, 1f, 2f, 3f, 3f, 3f, 3f };
