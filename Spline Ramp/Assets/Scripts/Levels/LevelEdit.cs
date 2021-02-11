@@ -42,6 +42,10 @@ namespace Assets.Scripts.Levels
         private bool mouse_over_ui = false;
         [SerializeField]
         private Ramp ramp;
+        [SerializeField]
+        private Transform boundary;
+        [SerializeField]
+        private int support_points_added;
 
         private void Awake()
         {
@@ -92,7 +96,7 @@ namespace Assets.Scripts.Levels
                 if (editing_ramp)
                 {
                     Vector3 new_position = GetMouseWorldCoordinates() - translation_offset;
-                    ramp.Edit(new_position, node_index);
+                    ramp.Edit(new_position, node_index, boundary.position.x);
                 }
             }
             if (Input.GetMouseButtonUp(0))
@@ -137,8 +141,12 @@ namespace Assets.Scripts.Levels
                     }
                     ui_manager.EnableDisableInteractionRampTypeDropdown(false);
                 }
+                support_points_added++;
                 ramp.AddPoint(new_position);
                 audio_manager.TapSound();
+
+                if (support_points_added == Constants.MAX_SUPPORT_POINTS)
+                    SetUnsetCreateRampMode();
             }
         }
 
@@ -158,7 +166,7 @@ namespace Assets.Scripts.Levels
             if (Input.GetMouseButton(0) && moving_ramp)
             {
                 Vector3 new_position = GetMouseWorldCoordinates() - translation_offset;
-                ramp.Translate(new_position);
+                ramp.Translate(new_position, boundary.position.x);
             }
             else if (Input.GetMouseButtonUp(0))
             {
@@ -193,6 +201,7 @@ namespace Assets.Scripts.Levels
             audio_manager.PlayButtonPressedSound();
             if (editing && editing_mode == EditingMode.None && ramp != null)
             {
+                support_points_added = 0;
                 ramp.DestroyRamp();
                 ramp = null;
                 ui_manager.EnableDisableInteractionMenuEditBtn(false);
@@ -332,7 +341,7 @@ namespace Assets.Scripts.Levels
 
         private bool ValidCoordinates(Vector3 coordinates)
         {
-            return coordinates.x < Constants.MAX_X_BOUNDARY;
+            return coordinates.x < boundary.position.x;
         }
     }
 }

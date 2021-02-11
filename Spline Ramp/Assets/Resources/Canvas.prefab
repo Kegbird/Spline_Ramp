@@ -582,7 +582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.66888875}
   m_AnchorMax: {x: 1, y: 0.90666676}
-  m_AnchoredPosition: {x: 0, y: 2.0999985}
+  m_AnchoredPosition: {x: 0, y: 2.100006}
   m_SizeDelta: {x: -200, y: -4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9046629412721300459
@@ -1741,7 +1741,7 @@ MonoBehaviour:
     m_Options:
     - m_Text: Segment ramp
       m_Image: {fileID: 0}
-    - m_Text: Bezier ramp
+    - m_Text: "Bezi\xE9r ramp"
       m_Image: {fileID: 0}
     - m_Text: Hermite ramp
       m_Image: {fileID: 0}
@@ -1988,7 +1988,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: e2936c4709ab4c54494b145109c5ea1d, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0

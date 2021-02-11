@@ -282,7 +282,6 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -298,19 +297,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
---- !u!114 &519420030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f5271736d1b3c747a32b1dc12054341, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  last_pan_position: {x: 0, y: 0, z: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1143,7 +1129,6 @@ MonoBehaviour:
   ball_spawn: {fileID: 1280887699}
   ball_gameobject: {fileID: 0}
   simulation_running: 0
-  camera_controller: {fileID: 519420030}
   coins_picked: 0
   coins:
   - {fileID: 404505201}
@@ -1174,6 +1159,8 @@ MonoBehaviour:
   editing_ramp: 0
   node_index: 0
   mouse_over_ui: 0
+  boundary: {fileID: 1735298989}
+  support_points_added: 0
 --- !u!4 &1907412274
 Transform:
   m_ObjectHideFlags: 0

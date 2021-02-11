@@ -20,22 +20,19 @@ namespace Assets.Scripts.Levels
             destination = nodes[1].position;
         }
 
-        // Update is called once per frame
         void Update()
         {
-            if (index < nodes.Length)
-            {
-                float interpolation = curve.Evaluate((Time.time - t));
-                transform.position = Vector3.Lerp(start, destination, interpolation);
+            float interpolation = curve.Evaluate((Time.time - t));
+            transform.position = start * (1 - interpolation) + destination * interpolation;
 
-                if (interpolation>=1)
-                {
-                    start = destination;
-                    t = Time.time;
-                    index++;
-                    index = index % nodes.Length;
-                    destination = nodes[index].position;
-                }
+            if (interpolation >= 1)
+            {
+                start = destination;
+                t = Time.time;
+                index++;
+                if (index == nodes.Length)
+                    index = 1;
+                destination = nodes[index].position;
             }
         }
     }

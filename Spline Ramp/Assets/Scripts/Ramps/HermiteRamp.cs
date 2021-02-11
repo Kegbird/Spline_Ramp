@@ -34,24 +34,25 @@ namespace Assets.Scripts.Ramps
 
         public override IEnumerator BuildRamp()
         {
-            int num_points = ((ramp_gameobject.transform.childCount - 1) * Constants.CURVE_STEPS) + 1;
+            int num_points = Constants.CURVE_STEPS + 1;
             int num_curves = ramp_gameobject.transform.childCount - 1;
             Vector2[] points = new Vector2[num_points];
             line_renderer.positionCount = num_points;
-
             for (int i = 0; i < num_curves; i++)
             {
-                for (int j = 0; j <= Constants.CURVE_STEPS; j++)
+                for (int j = 0; j <= Constants.CURVE_STEPS/num_curves; j++)
                 {
-                    int k = j + (i * Constants.CURVE_STEPS);
+                    int k = j + (i * Constants.CURVE_STEPS / num_curves);
                     Vector3 P0 = ramp_gameobject.transform.GetChild(i).transform.localPosition;
                     Vector3 P1 = ramp_gameobject.transform.GetChild(i+1).transform.localPosition;
                     Vector3 M0 = ramp_gameobject.transform.InverseTransformVector(ramp_gameobject.transform.GetChild(i).transform.right);
                     Vector3 M1 = ramp_gameobject.transform.InverseTransformVector(ramp_gameobject.transform.GetChild(i + 1).transform.right);
-                    points[k] = Curve.HermiteCurve((float)j / Constants.CURVE_STEPS, P0, P1, M0, M1);
+                    points[k] = Curve.HermiteCurve((float)j / ((float)Constants.CURVE_STEPS/num_curves), P0, P1, M0, M1);
                     line_renderer.SetPosition(k, points[k]);
                 }
             }
+            points[num_points-1] = ramp_gameobject.transform.GetChild(num_curves).transform.localPosition;
+            line_renderer.SetPosition(num_points-1, ramp_gameobject.transform.GetChild(num_curves).transform.localPosition);
             DenyEdit();
             edge_collider.points = points;
             yield return null;

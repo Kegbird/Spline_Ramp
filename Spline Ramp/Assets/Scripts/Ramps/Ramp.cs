@@ -91,14 +91,14 @@ namespace Assets.Scripts.Ramps
             axis.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
 
-        public void Translate(Vector3 new_position)
+        public void Translate(Vector3 new_position, float limit)
         {
             Vector3 offset = new_position - ramp_gameobject.transform.position;
             for (int j = 0; j < ramp_gameobject.transform.childCount; j++)
             {
                 Vector3 world_node_position = ramp_gameobject.transform.TransformPoint(ramp_gameobject.transform.GetChild(j).localPosition);
                 world_node_position += offset;
-                if (world_node_position.x > Constants.MAX_X_BOUNDARY)
+                if (world_node_position.x > limit)
                     return;
             }
             ramp_gameobject.transform.position = new_position;
@@ -109,9 +109,9 @@ namespace Assets.Scripts.Ramps
             return ramp_gameobject.transform.position;
         }
         
-        public virtual void Edit(Vector3 position, int node_index)
+        public virtual void Edit(Vector3 position, int node_index, float limit)
         {
-            position.x = Mathf.Clamp(position.x, -100f, Constants.MAX_X_BOUNDARY);
+            position.x = Mathf.Clamp(position.x, -100f, limit);
             position = ramp_gameobject.transform.InverseTransformPoint(position);
             ramp_gameobject.transform.GetChild(node_index).transform.localPosition = position;
         }

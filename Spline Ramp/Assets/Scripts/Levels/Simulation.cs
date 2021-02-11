@@ -23,8 +23,6 @@ namespace Assets.Scripts.Levels
         [SerializeField]
         private bool simulation_running;
         [SerializeField]
-        private CameraController camera_controller;
-        [SerializeField]
         private int coins_picked;
         [SerializeField]
         private GameObject[] coins;

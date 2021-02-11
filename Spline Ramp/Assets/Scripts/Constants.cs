@@ -13,7 +13,6 @@ namespace Assets.Scripts
         public const int ROTATION_PIVOT_INDEX = 0;
         public const float ACCELERATION_FACTOR = 0.1f;
         public const float ACCELERATION_TICK = 0.1f;
-        public const float MAX_X_BOUNDARY = 0f;
         public const float RAMP_EDGE_RADIUS = 0.4f;
         public const float Y_KILL = -20f;
         public static int GOAL_LAYER_MASK= LayerMask.NameToLayer("Goal");
@@ -31,6 +30,7 @@ namespace Assets.Scripts
         public static int COIN_NUMBER = 3;
         public static int LEVEL_NUMBER = 6;
         public static int MENU_SCENE_INDEX = 6;
+        public static int MAX_SUPPORT_POINTS = 7;
         public static Dictionary<int, int> coin_per_level = new Dictionary<int, int>();
         public static float[] KNOTS_4 = { 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f};
         public static float[] KNOTS_5 = { 0f, 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f };
