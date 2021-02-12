@@ -25,7 +25,7 @@ namespace Assets.Scripts
         public static int MATTRESS_LAYER_MASK = LayerMask.NameToLayer("Mattress");
         public static int OBSTACLE_LAYER_MASK = LayerMask.NameToLayer("Obstacle");
         public static int CURVE_STEPS = 20;
-        public static float DERIVATIVE_MAGNITUDE = 5f;
+        public static float DERIVATIVE_MAGNITUDE = 6f;
         public static int BSPLINE_DEGREE = 3;
         public static int COIN_NUMBER = 3;
         public static int LEVEL_NUMBER = 6;
@@ -35,5 +35,6 @@ namespace Assets.Scripts
         public static float[] KNOTS_4 = { 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f};
         public static float[] KNOTS_5 = { 0f, 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f };
         public static float[] KNOTS_6 = { 0f, 0f, 0f, 0f, 1f, 2f, 3f, 3f, 3f, 3f };
+        public static float[] KNOTS_7 = { 0f, 0f, 0f, 0f, 1f, 2f, 3f, 4f, 4f, 4f, 4f };
     }
 }

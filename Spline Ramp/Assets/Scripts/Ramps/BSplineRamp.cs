@@ -49,9 +49,13 @@ namespace Assets.Scripts.Ramps
                         knots = new List<float>(Constants.KNOTS_5);
                         num_curves = 2;
                         break;
-                    default:
+                    case 6:
                         knots = new List<float>(Constants.KNOTS_6);
                         num_curves = 3;
+                        break;
+                    default:
+                        knots = new List<float>(Constants.KNOTS_7);
+                        num_curves = 4;
                         break;
                 }
                 float t = knots[0];
