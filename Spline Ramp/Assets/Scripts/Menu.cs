@@ -183,8 +183,8 @@ public class Menu : MonoBehaviour
             LeanTween.moveY(chooselevel_title, 0, 0.25f);
             for(int i=0; i<levels.Length; i++)
             {
-                if(Constants.coin_per_level.ContainsKey(i))
-                    levels[i].GetComponent<Image>().sprite = level_sprite_coins[i][Constants.coin_per_level[i]];
+                if(Constants.coin_per_level.ContainsKey(i+1))
+                    levels[i].GetComponent<Image>().sprite = level_sprite_coins[i][Constants.coin_per_level[i+1]];
                 else
                     levels[i].GetComponent<Image>().sprite = level_sprite_coins[i][0];
 

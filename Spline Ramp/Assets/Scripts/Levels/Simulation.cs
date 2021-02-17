@@ -142,19 +142,20 @@ namespace Assets.Scripts.Levels
             {
                 ui_manager.AppearBlackScreen();
                 yield return new WaitForSeconds(1f);
-                if (Constants.coin_per_level.ContainsKey(SceneManager.GetActiveScene().buildIndex))
+                int level_index = SceneManager.GetActiveScene().buildIndex;
+                if (Constants.coin_per_level.ContainsKey(level_index))
                 {
-                    if (Constants.coin_per_level[SceneManager.GetActiveScene().buildIndex] < coins_picked)
-                        Constants.coin_per_level[SceneManager.GetActiveScene().buildIndex] = coins_picked;
+                    if (Constants.coin_per_level[level_index] < coins_picked)
+                        Constants.coin_per_level[level_index] = coins_picked;
                 }
                 else
                 {
-                    Constants.coin_per_level[SceneManager.GetActiveScene().buildIndex] = coins_picked;
+                    Constants.coin_per_level[level_index] = coins_picked;
                 }
-                if (SceneManager.GetActiveScene().buildIndex + 1 < Constants.LEVEL_NUMBER)
+                if (level_index+1 <= Constants.LEVEL_NUMBER)
                 {
                     //Load next level
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                    SceneManager.LoadScene(level_index+1);
                 }
                 else
                 {
