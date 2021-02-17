@@ -499,7 +499,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1332,6 +1332,7 @@ MonoBehaviour:
   nodes:
   - {fileID: 60898848}
   - {fileID: 173668410}
+  - {fileID: 60898848}
   index: 0
   t: 0
   curve:
@@ -1340,17 +1341,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.33333334
-      outSlope: 0.33333334
+      inSlope: 0.2
+      outSlope: 0.2
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 3
+      time: 5
       value: 1
-      inSlope: 0.33333334
-      outSlope: 0.33333334
+      inSlope: 0.2
+      outSlope: 0.2
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

@@ -439,7 +439,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -693,7 +693,7 @@ PrefabInstance:
     - target: {fileID: 8309568458074576186, guid: e26f2f5a9aa7e3745ab78f5c79ab4654,
         type: 3}
       propertyPath: nodes.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8309568458074576186, guid: e26f2f5a9aa7e3745ab78f5c79ab4654,
         type: 3}
@@ -840,6 +840,11 @@ PrefabInstance:
       propertyPath: curve.m_Curve.Array.data[4].value
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8309568458074576186, guid: e26f2f5a9aa7e3745ab78f5c79ab4654,
+        type: 3}
+      propertyPath: nodes.Array.data[4]
+      value: 
+      objectReference: {fileID: 1956287369}
     - target: {fileID: 8309568458074576187, guid: e26f2f5a9aa7e3745ab78f5c79ab4654,
         type: 3}
       propertyPath: m_Name
@@ -2007,7 +2012,7 @@ PrefabInstance:
     - target: {fileID: 8309568458074576186, guid: e26f2f5a9aa7e3745ab78f5c79ab4654,
         type: 3}
       propertyPath: nodes.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8309568458074576186, guid: e26f2f5a9aa7e3745ab78f5c79ab4654,
         type: 3}
@@ -2104,6 +2109,11 @@ PrefabInstance:
       propertyPath: curve.m_Curve.Array.data[2].outSlope
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8309568458074576186, guid: e26f2f5a9aa7e3745ab78f5c79ab4654,
+        type: 3}
+      propertyPath: nodes.Array.data[4]
+      value: 
+      objectReference: {fileID: 2077528921}
     - target: {fileID: 8309568458074576187, guid: e26f2f5a9aa7e3745ab78f5c79ab4654,
         type: 3}
       propertyPath: m_Name

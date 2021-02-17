@@ -29,8 +29,9 @@ namespace Assets.Scripts
         public static int BSPLINE_DEGREE = 3;
         public static int COIN_NUMBER = 3;
         public static int LEVEL_NUMBER = 6;
-        public static int MENU_SCENE_INDEX = 6;
+        public static int MENU_SCENE_INDEX = 0;
         public static int MAX_SUPPORT_POINTS = 7;
+        public static float ROTATION_SPEED = 10f;
         public static Dictionary<int, int> coin_per_level = new Dictionary<int, int>();
         public static float[] KNOTS_4 = { 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f};
         public static float[] KNOTS_5 = { 0f, 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f };

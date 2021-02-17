@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <title>Spline Ramp - Manuale</title>
+
+</head>
+
+<body style="background-color:black;">
+  <div class="container pt-4">
+    <div class="row justify-content-center">
+      <div class="col-*-*">
+        <a href="index.html">
+          <img src="images/banner.png">
+        </a>
+      </div>
+    </div>
+    <div class="row pt-4 pb-4 justify-content-center">
+      <div class="col-*-* mx-4">
+        <a href="game.html">
+          <button type="button" class="btn btn-light btn-lg">Gioca!</button>
+        </a>
+      </div>
+      <div class="col-*-* mx-4">
+        <a href="theory.html">
+          <button type="button" class="btn btn-light btn-lg">Teoria</button>
+        </a>
+      </div>
+    </div>
+    <div class="row pt-4 pb-4 justify-content-center panel_manual">
+      <div class="col-*-*">
+        <h1 class="text-center">Manuale utente</h1>
+        <h2>Elementi di gioco</h2>
+        <p>
+          In Spline Ramp il tuo scopo è quello di mandare a canestro una palla, tramite una rampa; il gioco è
+          strutturato
+          in 6 livelli, caratterizzati dalla presenza di ostacoli fissi, mobili ed elementi da sfruttare.
+          Prima di addentrarci nel menù costruzione che permette di costruire o modificare la rampa, analizziamo prima
+          i vari oggetti, che si possono trovare nei livelli; alcuni di questi sono sempre presenti, mentre altri no.
+        </p>
+        <h4>La palla</h4>
+        <p>
+        <img class="centre_small_image" src="images/ball.png">
+          La palla rappresenta il corpo che vogliamo mandare a canestro; il giocatore può decidere come lanciarla
+          tramite la rampa costruita.
+          Come verrà spiegato anche in seguito, la palla viene generata ogni volta che si avvia la simulazione;
+          all'inizio
+          della simulazione, questa verrà creata in un punto specifico nel livello e da quell'istante in poi, cadrà per
+          effetto della gravità. <br>
+          Tuttavia, la velocità acquisita durante la caduta e la corsa sulla rampa non bastarà a raggiungere il
+          canestro;
+          ecco perché, il giocatore durante la simulazione, può imprimere velocità nella palla, tenendo premuto
+          il pulsante 'a' della tastiera; l'accelerazione è costante e viene impressa lungo vettore velocità della
+          palla. <br>
+          La velocità della palla continuerà a crescere, finché che il giocatore non rilascia il pulsante 'a'.
+        </p>
+        <h4>Il canestro</h4>
+        <p>
+        <img class="centre_small_image" src="images/net.png">
+          Il canestro rappresenta l'obiettivo di gioco; per superare il livello è sufficiente far si che la palla vi
+          ci entri.<br>
+          Generalmente, questo è fissato in una certa posizione che è diversa in tutti i livelli, a parte
+          in un livello, in cui questo si muove, con velocità costante lungo un certo percorso.
+        </p>
+        <h4>Coni stradali</h4>
+        <p>
+        <img class="centre_small_image" src="images/cone.png">
+          I coni stradali sono ostacoli mobili che seguono un percorso, posto tra la rampa e il canestro.
+          Ogni cono stradale segue un percorso prefissato, e lo segue con una
+          sua velocità e andatura.<br>
+          Se durante il viaggio della palla, questa colpisce un cono, verrà deviata e probabilmente non raggiungerà il
+          canestro.<br>
+          Prima di lanciare la palla è quindi importante seguire bene i loro movimenti di questi coni.
+        </p>
+        <h4>Muri</h4>
+        <p>
+          Questi ostacoli sono rappresentati da dei rettangoli bianchi posti in zone prefissate nei livelli;
+          per superarli, basta far si che la palla non li tocchi durante il suo tragitto.<br>
+          La loro posizione rimane fissa durante tutto il tempo di gioco, fatta eccezione per l'ultimo livello
+          di Spline Ramp, in cui c'è un muro che ruota con velocità costante, attorno al suo asse.
+        </p>
+        <h4>Materassi</h4>
+        <p>
+        <img class="centre_small_image" src="images/mattress.png">
+          I materassi rappresentano un elemento di supporto al giocatore; sono prefissati nei vari livelli e tutti fanno
+          rimbalzare la palla nel medesimo modo (a seconda di dove questa colpisca il materasso e con che velocità).
+          In certe situazioni, non sarà possibile costruire una rampa molto lunga, per
+          cui è importante sfruttarli al meglio.
+        </p>
+        <h4>Monete</h4>
+        <p>
+          <img class="centre_small_image" src="images/coin.png">
+          Le monete sono degli oggetti che si possono raccogliere in tutti i livelli; per raccogliere una moneta, basta
+          che
+          la palla, la tocchi durante il suo tragitto. Le monete non sono ostacoli e non generano collisioni. <br>
+          Ci sono 3 monete in tutti i livelli che si possono raccogliere e sono disposte in modo diverso; il modo con
+          cui sono disposte,
+          suggerisce inoltre, una possibile traiettoria che la palla può seguire per andare a canestro. <br>
+          Se la palla fa canestro, il gioco controlla quante sono le monete raccolte durante quella simulazione; a
+          seconda di quante
+          monete sono state raccolte, il gioco mostrerà un messaggio diverso al giocatore.
+          <ul>
+            <li> 0 monete: "Puoi fare di meglio!"</li>
+            <li> 1 monete: "Bravino!"</li>
+            <li> 2 monete: "Bravo!"</li>
+            <li> 3 monete: "Bravissimo!"</li>
+          </ul>
+          In ogni caso, per avanzare nel gioco basta solo fare canestro.
+      </p>
+
+        <h2>Menù costruzione</h2>
+        <p>
+          Dopo avere spiegato le cose che si possono trovare in Spline Ramp, vediamo come costruire effettivamente una
+          rampa. <br>
+
+          Per creare o modificare una rampa, bisogna accedere al menù costruzione, cliccando sull'ingranaggio nero
+          posizionato in alto a sinistra.
+          <img class="centre_small_image" src="images/settings.png">
+          Compariranno una serie di icone:
+          <ul>
+            <li><a href="#hammer">Martello</a></li>
+            <li><a href="#translate">Traslazione</a></li>
+            <li><a href="#garbage_can">Cestino</a></li>
+            <li><a href="#rotate">Rotazione</a></li>
+            <li><a href="#edit">Modifica</a></li>
+          </ul>
+
+          Alcuni menù all'inizio sono disabilitati, perché si possono usare solo se la rampa è stata creata; in ogni
+          livello, si può costruire solo una rampa.<br>
+          Analizziamo le varie funzionalità.
+        </p>
+
+        <h4 id="hammer">Martello</h4>
+        <p>
+          <img class="centre_small_image" src="images/hammer.png">
+          Questo menù ci permette di costruire la rampa, qualora non ne avessimo creata nessuna; in ogni livello
+          il giocatore può creare al più una rampa.
+          Il menù che ci appare è composto da un bottone di conferma e un menù a tendina; il menù a tendina ci
+          permette di selezionare il tipo di rampa che possiamo creare.<br>
+          Ci sono 4 tipologie di rampe:
+          <ul>
+            <li>Segmentata</li>
+            <li>Beziér</li>
+            <li>Hermite</li>
+            <li>BSpline</li>
+          </ul>
+          La rampa segmentata è una rampa molto semplice, la cui struttura è descritta da una sequenza di segmenti
+          collegati; la rampa di Beziér è una rampa costruita seguendo la curva definita dai punti del poligono di
+          controllo
+          specificato.
+          La rampa di Hermite è una rampa costruita sfruttando i polinomi di Hermite: in ciascun punto della sua
+          struttura è possibile cambiare la direzione del vettore tangente alla curva.
+          Infine la rampa BSpline è una rampa costruita sulla bspline definita dai punti del poligono di controllo.<br>
+          Una volta scelta la rampa, per definire i punti della rampa, basterà cliccare sul lato sinistro dello schermo,
+          delimitato
+          da una linea bianca di confine; tutti i punti immessi a sinistra dello schermo verranno considerti.
+          Dopo ogni click valido, appariranno dei punti neri in corrispondenza della posizione del mouse; l'ordine dei
+          punti e la loro posizione verranno usati per definire il poligono di controllo della rampa e successivamente la rampa.<br>
+          Per ogni rampa, si possono definire al massimo 7 punti; se si immettono 7 punti, la rampa viene creata automaticamente.<br>
+          Quando siamo soddisfatti della forma del poligono di controllo, basterà cliccare sul pulsante di conferma.<br>
+          Per le rampe Hermitiane, è possibile cambiare la direzione del vettore tangente in ogni punto, tenendo premuto il
+          pulsante sinistro del mouse sopra l'indicatore di direzione. <br>
+          Per maggiori informazioni sulle implmentazioni di queste rampe, consultare la pagina di teoria.
+        </p>
+
+        <h4 id="translate">Traslazione</h4>
+        <p>
+          <img class="centre_small_image" src="images/translate.png">
+          Questa funzionalità ci permette di traslare la rampa creata; per muovere la rampa, basta tenere premuto il
+          tasto
+          sinistro sulla rampa e muovere il cursore, per spostarla dove vogliamo.<br>
+          Quando siamo soddisfatti delle modifiche, basterà cliccare sul bottone di conferma, per confermare la nuova
+          posizione.
+        </p>
+
+        <h4 id="garbage_can">Cestino</h4>
+        <p>
+          <img class="centre_small_image" src="images/delete.png">
+          Questo bottone cancella la rampa attualmente in uso.
+        </p>
+
+        <h4 id="rotate">Rotazione</h4>
+        <p>
+          <img class="centre_small_image" src="images/rotate.png">
+          Questa funzionalità ci permette di ruotare la rampa creata; per ruotare la rampa è sufficiente tenere premuto
+          l'indicatore di rotazione che
+          appare in prossimità della rampa, e muovere il cursore; la rampa ruoterà di conseguenza.<br>
+          Una volta che siamo soddisfatti della nuova trasformazione, basterà confermare tramite il bottone di conferma.
+        </p>
+
+        <h4 id="edit">Modifica</h4>
+        <p>
+          <img class="centre_small_image" src="images/edit.png">
+          Questo menù ci permetterà di cambiare e adattare la struttura della curva; questo menù non permette di
+          aggiungere nuovi punti al poligono di
+          controllo, ma solo di aggiornare le posizioni dei punti già creati. <br>
+          Per modificare la posizione di un punto, basta cliccare e tenere premuto su questi, spostando il cursore; la
+          modifica delle curve di Hermite
+          funziona in modo analogo, aggiungendo la possibilità di cambiare la direzione del vettore tangente.
+          La modifica di tale vettore si esegue in modo analogo a quanto fatto in fase di creazione.
+        </p>
+        <h2>Simulazione</h2>
+        <p>
+          Per testare se la rampa costruita è idonea allo scopo, si può avviare la simulazione
+          cliccando sul pulsante "Play", nella
+          parte in alto a destra della schermata di gioco.
+          Una volta fatto, la palla verrà generata a partire dall'icona bandiera e da lì, cadrà in basso per effetto
+          della gravità.
+          Una buona rampa e i tempi giusti di accelerazione, sono la chiave per mandare la palla a canestro. <br>
+          Se la palla va a canestro, apparirà la schermata di vittoria che proporrà al giocatore di passare al livello successivo, oppure
+          ritentare il livello corrente.
+          <img class="centre_big_gif" src="images/simulation.gif">
+        </p>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+p {
+    color: rgb(0, 0, 0);
+}
+
+h1, h2, h3, h4 {
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+}
+
+h3 {
+    margin-top: 2%;
+}
+
+a {
+    color: rgb(0, 0, 0);
+}
+
+ul {
+    color: rgb(0, 0, 0);
+}
+
+body {
+    font-family: Verdana, sans-serif;
+}
+
+.game_example_gif {
+    margin-top: 0%;
+    margin-bottom: 0%;
+    margin-right: 0%;
+    margin-left: 0%;
+    width: 100%;
+    border-radius: 25px;
+}
+
+.centre_small_image {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 45%;
+    margin-left: 45%;
+    width: 10%;
+}
+
+.centre_normal_image {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 33%;
+    margin-left: 33%;
+    width: 25%;
+}
+
+.centre_big_gif {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 0%;
+    margin-left: 0%;
+    width: 100%;
+    border-radius: 25px;
+}
+
+.centre_normal_gif {
+    margin-top: 0%;
+    margin-bottom: 0%;
+    margin-right: 25%;
+    margin-left: 25%;
+    width: 50%;
+    border-radius: 25px;
+}
+
+.centre_big_image {
+    border-radius: 25px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 25%;
+    margin-left: 25%;
+    width: 50%;
+}
+
+.code_image {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 100%;
+    border-radius: 25px;
+}
+
+.gif_image {
+    width: 50%;
+    border-radius: 25px;
+}
+
+.panel_index {
+    width: 66%;
+    padding: 2.5%;
+    border-radius: 25px;
+    background-color: #b6b6b6;
+}
+
+.panel_game {
+    margin-right: 5%;
+    margin-left: 5%;
+    width: 90%;
+    padding: 2.5%;
+    border-radius: 25px;
+    background-color: #b6b6b6;
+}
+
+.panel_theory {
+    width: 100%;
+    padding: 2.5%;
+    border-radius: 25px;
+    background-color: #b6b6b6;
+}
+
+.panel_manual {
+    width: 100%;
+    padding: 2.5%;
+    border-radius: 25px;
+    background-color: #b6b6b6;
+}

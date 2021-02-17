@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 89404911}
   - component: {fileID: 89404913}
   - component: {fileID: 89404912}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Mattress
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -300,6 +300,7 @@ MonoBehaviour:
   node_index: 0
   mouse_over_ui: 0
   boundary: {fileID: 1735298989}
+  support_points_added: 0
 --- !u!82 &104070492
 AudioSource:
   m_ObjectHideFlags: 0
@@ -576,7 +577,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

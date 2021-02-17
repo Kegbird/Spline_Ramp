@@ -8,7 +8,7 @@ namespace Assets.Scripts.Levels
     {
         private void Update()
         {
-            transform.rotation *= Quaternion.Euler(new Vector3(0, 0, 0.5f));
+            transform.rotation *= Quaternion.Euler(new Vector3(0, 0, Constants.ROTATION_SPEED* Time.deltaTime));
         }
     }
 }

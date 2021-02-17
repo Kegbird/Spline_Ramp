@@ -19,13 +19,7 @@ public class Menu : MonoBehaviour
     [SerializeField]
     RectTransform howtoplay_title;
     [SerializeField]
-    RectTransform tip_0;
-    [SerializeField]
-    RectTransform tip_1;
-    [SerializeField]
-    RectTransform tip_2;
-    [SerializeField]
-    RectTransform tip_3;
+    RectTransform tips_text;
     [SerializeField]
     RectTransform howtoplay_back_btn;
     //Play ui elements
@@ -49,10 +43,10 @@ public class Menu : MonoBehaviour
         {
             level_sprite_coins[i] = new Sprite[4]
             {
-                Resources.Load<Sprite>("Levels/Level_" + i + "/Coin_" + 0),
-                Resources.Load<Sprite>("Levels/Level_" + i + "/Coin_" + 1),
-                Resources.Load<Sprite>("Levels/Level_" + i + "/Coin_" + 2),
-                Resources.Load<Sprite>("Levels/Level_" + i + "/Coin_" + 3),
+                Resources.Load<Sprite>("Levels/Level_" + i + "/" + 0+"_Coins"),
+                Resources.Load<Sprite>("Levels/Level_" + i + "/" + 1+"_Coins"),
+                Resources.Load<Sprite>("Levels/Level_" + i + "/" + 2+"_Coins"),
+                Resources.Load<Sprite>("Levels/Level_" + i + "/" + 3+"_Coins"),
             };
         }
     }
@@ -158,16 +152,9 @@ public class Menu : MonoBehaviour
         {
             LeanTween.moveY(howtoplay_title, 0, 0.25f);
             yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tip_0, 0, 0.25f);
-            yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tip_1, 0, 0.25f);
-            yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tip_2, 0, 0.25f);
-            yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tip_3, 0, 0.25f);
+            LeanTween.moveY(tips_text, 0, 0.25f);
             yield return new WaitForSeconds(0.25f);
             LeanTween.moveY(howtoplay_back_btn, 0, 0.25f);
-            yield return new WaitForSeconds(0.25f);
             howtoplay_back_btn.GetComponent<Button>().enabled = true;
         }
         StartCoroutine(Delay());
@@ -180,13 +167,7 @@ public class Menu : MonoBehaviour
             howtoplay_back_btn.GetComponent<Button>().enabled = false;
             LeanTween.moveY(howtoplay_back_btn, -1000, 0.25f);
             yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tip_3, -1000, 0.25f);
-            yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tip_2, -1000, 0.25f);
-            yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tip_1, -1000, 0.25f);
-            yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tip_0, -1000, 0.25f);
+            LeanTween.moveY(tips_text, -1000, 0.25f);
             yield return new WaitForSeconds(0.25f);
             LeanTween.moveY(howtoplay_title, 300, 0.25f);
             yield return new WaitForSeconds(0.25f);

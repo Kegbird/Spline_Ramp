@@ -53,6 +53,7 @@ namespace Assets.Scripts.Levels
                 ball.ui_manager = ui_manager;
                 simulation_running = true;
                 ui_manager.DisplayHideCoinIndicators(true);
+                ui_manager.DisplayHideEditLevelBtn(false);
             }
             else
             {
@@ -62,6 +63,7 @@ namespace Assets.Scripts.Levels
                 Destroy(ball_gameobject);
                 ui_manager.SetPlayImage();
                 ui_manager.DisplayHideCoinIndicators(false);
+                ui_manager.DisplayHideEditLevelBtn(true);
                 EnableAllCoins();
                 ResetPickedCoins();
             }
@@ -83,6 +85,7 @@ namespace Assets.Scripts.Levels
                     Destroy(ball_gameobject);
                     ui_manager.SetPlayImage();
                     ui_manager.DisplayHideCoinIndicators(false);
+                    ui_manager.DisplayHideEditLevelBtn(true);
                     EnableAllCoins();
                     ResetPickedCoins();
                 }
