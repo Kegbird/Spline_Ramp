@@ -41,38 +41,30 @@
         <h1 class="text-center">Manuale utente</h1>
         <h3>Introduzione</h3>
         <p>
-          Come citato nel manuale utente, Spline Ramp utilizza le curve per la costruzione di una rampa che il
-          giocatore deve sfruttare,
-          per mandare una palla nel canestro.
-          Le rampe curve che il giocatore può definire sono le seguenti:
+          Le rampe curve che il giocatore può definire nel gioco sono le seguenti:
 
         <ul>
           <li><a href="#bezier">Curve di Beziér</a></li>
-          <li><a href="#hermite">Spline cubica di Hermite</a></li>
+          <li><a href="#hermite">Spline cubiche di Hermite</a></li>
           <li><a href="#bspline">B-Spline</a></li>
         </ul>
-
           Essendo il gioco 2D, tutte le curve sopracitate sono curve piane, ovvero, curve il cui poligono di controllo
-          giace su un piano;
-          questo implica che le tutte le curve che vengono create in gioco hanno torsione pari a 0.<br>
-          Il progetto è stato sviluppato con il game engine di Unity, quindi per ogni curva mostrata in questa pagina,
-          verrà data la rispettiva
-          definizione matematica implementata, la definizione matematica implementata da codice e il codice che disegna
+          giace su un piano; questo implica che hanno torsione pari a 0.<br>
+          Ci sono anche le rampe segmentate, che sono ottenute creando segmenti lungo i punti del poligono di controllo.
+          Il progetto è stato sviluppato con il game engine di Unity; per ogni rampa curva mostrata in questa pagina,
+          verrà data la rispettiva definizione matematica, la definizione matematica implementata e il codice che disegna
           la curva nel gioco. <br>
-          In questa pagina spiegherò anche come si muovono i vari oggetti dinamici, presenti nel gioco.
+          Le rampe curve create nel gioco, sono composte da 20 segmenti connessi tra loro, lungo i punti della curva(ottenuti tramite le definizioni matematiche).
         </p>
 
         <h3>Interpolazione</h3>
         <p>
-          Nel gioco sono presenti elementi che si muovono secondo dei percorsi prestabiliti; ogni percorso, è composto
+          Nel gioco sono presenti degli ostacoli che si muovono secondo dei percorsi prestabiliti; ogni percorso, è composto
           da diversi nodi. <br>
-          Questi elementi si muovono tramite interpolazione, sfruttando la posizione di 2 nodi del percorso; un ostacolo per esempio,
-          durante tutta la sessione di gioco, prende una coppia di nodi adiacenti del percorso assegnatogli e si muove tramite questi per interpolazione, 
-          partendo da un nodo della coppia e raggiungendo l'altro.
-          Quando questo raggiunge il secondo nodo, l'ostacolo prenderà la coppia di nodi successivi e l'interpolazione riprende da 0. <br>
-          Ad ognuno di questi oggetti mobili viene assegnata quindi una curva, definita su un intervallo variabile, non necessariamente [0, 1], che utilizza per interpolare la sua posizione.
-          Alcuni oggetti si muovono, tramite interpolazione lineare, mentre altri in modo più strano grazie a curve costruite ad hoc.
-          Le curve usate dagli oggetti, sono costruite tramite il game engine di Unity, che fornisce un pannello di creazione e modifica curve. <br>
+          Questi elementi si muovono tramite interpolazione, sfruttando le posizioni di coppie di nodi del percorso;
+          quando questo raggiunge il secondo nodo, l'ostacolo prenderà la coppia di nodi successivi e l'interpolazione riprende da 0. <br>
+          A ognuno di questi ostacoli viene associata un curva, definita su un intervallo variabile, che utilizza per eseguire l'interpolazione.
+          Alcuni oggetti si muovono, tramite interpolazione lineare, mentre altri in modo più strano grazie alle curve.
           A seguito il codice usato per la gestione del movimenti e una piccola dimostrazione visiva del risultato.<br>
           <img class="code_image" src="images/interpolation_code.PNG">
           <img class="centre_big_gif" src="images/obstacle.gif">
@@ -85,16 +77,14 @@
           una curva di Beziér
           per prima cosa bisogna definire N punti che andranno a costruire il suo poligono di controllo.
           Definiti N punti di controllo, il grado K della curva è pari a N-1, cioé il numero di
-          punti del poligono di controllo meno 1.
+          punti del poligono di controllo meno 1; come già detto nel manuale utente, per ogni curva, il giocatore può
+          usare al massimo 7 punti. Questo significa che il grado massimo delle curve di Beziér utilizzate sarà 6.
 
-          Esistono diversi modi per definire la curva, partendo da questi punti; in questo progetto, le curve di Beziér
-          sono costruite tramite i polinomi di Bernstein.
+          Le curve di Beziér prodotte dal giocatore, sono costruite tramite i polinomi di Bernstein.
         </p>
         <h4>Algoritmo dei polinomi di Bernstein</h4>
         <p>
-          Questo algoritmo è generalmente quello più utilizzato per la costruizione delle curve di Beziér, perché
-          rispetto all'algoritmo
-          di DeCasteljo, richiede meno passi di ricorsione per essere eseguito.
+          Questo algoritmo descrive una curva di Beziér tramite i polinomi di Bernstein, definiti come segue:
         <p>
           \(P(t) = \sum_{i = 0}^{k} B_i^k(t) * P_i\)<br>
         </p>
@@ -121,20 +111,20 @@
         </p>
         <p>
           Scorrendo il parametro \(t\) è quindi possibile definire la curva che di Beziér che parte dal punto iniziale e
-          termina
-          nel punto finale.<br>
+          termina nel punto finale.<br>
           L'implementazione dell'algoritmo di Bernstein utilizzata è la seguente:
           <img class="code_image" src="images/bezier_code.PNG">
           Mentre la sezione il codice che sfrutta l'algoritmo per creare la curva nello spazio di gioco è il seguente:
           <img class="code_image" src="images/bezier_ramp.PNG">
         </p>
-        <h3 id="hermite">Spline cubica di Hermite</h3>
+        <h3 id="hermite">Spline cubiche di Hermite</h3>
         <p>
           Una spline cubica di Hermite è una curva composta da curve di Beziér di grado 3, incollate
           lungo i punti del poligono di controllo con incollamento C1; essendo ogni frammento della spline una curva di Beziér, tutte le sue parti
           sono definite da funzioni polinomiali definite sul medesimo intervallo [0, 1].
           A differenza delle curve di Beziér però, l'interpolazione nei vari frammenti della spline, viene fatta considerando una a una, le coppie di punti (del poligono di controllo)
           ai quali vengono associati anche dei vettori tangenti.
+          Le curve di Hermite che si possono costruire nel gioco, possono avere al massimo 7 punti.
 
           La definizione matematica di queste spline è basata sui polinomi di Hermite \(H\): dati i punti \(Q_0\) e \(Q_1\) ai quali sono associati i vettori tangenti \(m_0\) e \(m_1\), 
           è possibile definire i punti di controllo \(P_0\),\(P_1\),\(P_2\) e \(P_3\) di un frammento della curva in questo modo:
@@ -176,7 +166,7 @@
           La spine quindi è costruita usando questa definizione, per ogni coppia di punti e tangenti che la compongono.
           Passiamo ora alla definizione di queste curva da codice:
           <img class="code_image" src="images/hermite_code.PNG">
-          In modo molto simile a quanto fatto per le curve di Beziér:
+          Il modulo dei vettori associati a ciascun punto è una costante(6). 
           <img class="code_image" src="images/hermite_ramp.PNG">
         </p>   
         <h3 id="bspline">B-Spline</h3>
@@ -196,8 +186,8 @@
               b-spline non uniformi razionali: chiamate anche "nurbs", definite come rapporto di curve polinomiali. 
             </li>
           </ul>
-          In Spline Ramp, le b-spline generate sono tutte b-spline cubiche uniformi; questo vuol dire, che se i punti usati per il poligono di controllo sono meno di 4, 
-          quello che si produrrà sarà una curva di Beziér di quel grado. <br>
+          In Spline Ramp, le b-spline generate sono tutte b-spline cubiche uniformi, composte al massimo da 7 punti; 
+          questo vuol dire, che se i punti usati per il poligono di controllo sono meno di 4, quello che si produrrà sarà una curva di Beziér di quel grado. <br>
           La parametrizzazione degli elementi di una b-spline sfrutta un vettore di valori, chiamato vettore nodi, che contiene una sequenza di valori crescenti. <br>
           Ciascuna coppia di valori nodali \(t_i\) e \(t_{i+1}\) sono i parametri di interpolazione, utilizzati da una certa curva che compone la b-spline.
           I valori contenuti in questo vettore, possono essere ripetuti, alterando la continuità della curva che si andrà a costruire; in particolare, ripetendo 
@@ -233,7 +223,7 @@
         </ul>
         </p>
         <p>
-          I polinomi \(B_{i, k}(t)\) sono polinomi ricorsivi di DeBoor e si calcolano come segue:<br><br>
+          I polinomi \(B_{i, k}(t)\) sono polinomi ricorsivi di DeBoor:<br><br>
           \(B_{i, 1}=\begin{cases}
           0 \text{ se } t_i \le t \lt t_{i+1}\\
           1 \text{ altrimenti}

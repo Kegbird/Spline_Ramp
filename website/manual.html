@@ -40,8 +40,7 @@
         <h2>Elementi di gioco</h2>
         <p>
           In Spline Ramp il tuo scopo è quello di mandare a canestro una palla, tramite una rampa; il gioco è
-          strutturato
-          in 6 livelli, caratterizzati dalla presenza di ostacoli fissi, mobili ed elementi da sfruttare.
+          strutturato in 6 livelli, caratterizzati dalla presenza di ostacoli fissi, mobili ed elementi da sfruttare.
           Prima di addentrarci nel menù costruzione che permette di costruire o modificare la rampa, analizziamo prima
           i vari oggetti, che si possono trovare nei livelli; alcuni di questi sono sempre presenti, mentre altri no.
         </p>
@@ -153,29 +152,26 @@
           </ul>
           La rampa segmentata è una rampa molto semplice, la cui struttura è descritta da una sequenza di segmenti
           collegati; la rampa di Beziér è una rampa costruita seguendo la curva definita dai punti del poligono di
-          controllo
-          specificato.
+          controllo specificato.
           La rampa di Hermite è una rampa costruita sfruttando i polinomi di Hermite: in ciascun punto della sua
-          struttura è possibile cambiare la direzione del vettore tangente alla curva.
-          Infine la rampa BSpline è una rampa costruita sulla bspline definita dai punti del poligono di controllo.<br>
+          struttura è possibile cambiare la direzione del vettore tangente alla curva; infine la rampa BSpline è una rampa costruita sulla bspline definita dai punti del poligono di controllo.<br>
+          Per maggiori informazioni sulle implmentazioni di queste rampe, consultare la pagina di teoria.
           Una volta scelta la rampa, per definire i punti della rampa, basterà cliccare sul lato sinistro dello schermo,
-          delimitato
-          da una linea bianca di confine; tutti i punti immessi a sinistra dello schermo verranno considerti.
-          Dopo ogni click valido, appariranno dei punti neri in corrispondenza della posizione del mouse; l'ordine dei
+          delimitato da una linea bianca di confine; la regione indicata in rosso, nell'immagine sottostante, rappresenta la porzione di spazio in cui si possono immettere i punti.
+          <img class="centre_big_image" src="images/valid_region.PNG">
+          Dopo ogni click valido, appariranno dei punti neri in corrispondenza della posizione del mouse; l'ordine di immissione dei
           punti e la loro posizione verranno usati per definire il poligono di controllo della rampa e successivamente la rampa.<br>
           Per ogni rampa, si possono definire al massimo 7 punti; se si immettono 7 punti, la rampa viene creata automaticamente.<br>
           Quando siamo soddisfatti della forma del poligono di controllo, basterà cliccare sul pulsante di conferma.<br>
           Per le rampe Hermitiane, è possibile cambiare la direzione del vettore tangente in ogni punto, tenendo premuto il
           pulsante sinistro del mouse sopra l'indicatore di direzione. <br>
-          Per maggiori informazioni sulle implmentazioni di queste rampe, consultare la pagina di teoria.
         </p>
 
         <h4 id="translate">Traslazione</h4>
         <p>
           <img class="centre_small_image" src="images/translate.png">
-          Questa funzionalità ci permette di traslare la rampa creata; per muovere la rampa, basta tenere premuto il
-          tasto
-          sinistro sulla rampa e muovere il cursore, per spostarla dove vogliamo.<br>
+          Questa funzionalità ci permette di traslare la rampa creata; per muovere la rampa, basta cliccare e tenere premuto il
+          tasto sinistro del mouse sulla rampa e muovere il cursore, per spostarla dove vogliamo.<br>
           Quando siamo soddisfatti delle modifiche, basterà cliccare sul bottone di conferma, per confermare la nuova
           posizione.
         </p>
@@ -189,10 +185,9 @@
         <h4 id="rotate">Rotazione</h4>
         <p>
           <img class="centre_small_image" src="images/rotate.png">
-          Questa funzionalità ci permette di ruotare la rampa creata; per ruotare la rampa è sufficiente tenere premuto
-          l'indicatore di rotazione che
-          appare in prossimità della rampa, e muovere il cursore; la rampa ruoterà di conseguenza.<br>
-          Una volta che siamo soddisfatti della nuova trasformazione, basterà confermare tramite il bottone di conferma.
+          Questa funzionalità ci permette di ruotare la rampa creata; per ruotare la rampa è sufficiente cliccare e tenere premuto
+          l'indicatore di rotazione che appare in prossimità della rampa, e muovere il cursore; la rampa ruoterà di conseguenza.<br>
+          Una volta che siamo soddisfatti del nuovo orientamento, basterà confermare tramite il bottone di conferma.
         </p>
 
         <h4 id="edit">Modifica</h4>
@@ -202,15 +197,13 @@
           aggiungere nuovi punti al poligono di
           controllo, ma solo di aggiornare le posizioni dei punti già creati. <br>
           Per modificare la posizione di un punto, basta cliccare e tenere premuto su questi, spostando il cursore; la
-          modifica delle curve di Hermite
-          funziona in modo analogo, aggiungendo la possibilità di cambiare la direzione del vettore tangente.
-          La modifica di tale vettore si esegue in modo analogo a quanto fatto in fase di creazione.
+          modifica delle cubiche di Hermite
+          funziona in modo analogo, aggiungendo la possibilità di cambiare la direzione dei vari vettori tangenti.
         </p>
         <h2>Simulazione</h2>
         <p>
           Per testare se la rampa costruita è idonea allo scopo, si può avviare la simulazione
-          cliccando sul pulsante "Play", nella
-          parte in alto a destra della schermata di gioco.
+          cliccando sul pulsante "Play", nella parte in alto a destra della schermata di gioco.
           Una volta fatto, la palla verrà generata a partire dall'icona bandiera e da lì, cadrà in basso per effetto
           della gravità.
           Una buona rampa e i tempi giusti di accelerazione, sono la chiave per mandare la palla a canestro. <br>
