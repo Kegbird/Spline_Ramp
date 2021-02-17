@@ -16,29 +16,27 @@
 </head>
 
 <body style="background-color:black;">
-  <div class="container pt-4">
-    <div class="row justify-content-center pb-4">
-      <div class="col-*-*">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col">
         <a href="../index.html">
-          <img src="images/banner.png">
+          <img class="img-fluid mx-auto d-block" src="images/banner.png">
         </a>
       </div>
     </div>
-    <div class="row pb-4 justify-content-center">
-      <div class="col-*-* mx-4">
+    <div class="row pt-4">
+      <div class="col text-center">
         <a href="game.html">
           <button type="button" class="btn btn-light btn-lg">Gioca!</button>
         </a>
-      </div>
-      <div class="col-*-* mx-4">
         <a href="manual.html">
           <button type="button" class="btn btn-light btn-lg">Manuale</button>
         </a>
       </div>
     </div>
-    <div class="row pt-4 pb-4 justify-content-center panel_theory">
-      <div class="col-*-*">
-        <h1 class="text-center">Manuale utente</h1>
+    <div class="row pt-4 pb-4">
+      <div class="panel col">
+        <h1 class="text-center">Teoria</h1>
         <h3>Introduzione</h3>
         <p>
           Le rampe curve che il giocatore può definire nel gioco sono le seguenti:
@@ -64,7 +62,7 @@
           Questi elementi si muovono tramite interpolazione, sfruttando le posizioni di coppie di nodi del percorso;
           quando questo raggiunge il secondo nodo, l'ostacolo prenderà la coppia di nodi successivi e l'interpolazione riprende da 0. <br>
           A ognuno di questi ostacoli viene associata un curva, definita su un intervallo variabile, che utilizza per eseguire l'interpolazione.
-          Alcuni oggetti si muovono, tramite interpolazione lineare, mentre altri in modo più strano grazie alle curve.
+          Alcuni oggetti si muovono, tramite interpolazione lineare, mentre altri in modo più strano grazie alle curve.<br>
           A seguito il codice usato per la gestione del movimenti e una piccola dimostrazione visiva del risultato.<br>
           <img class="code_image" src="images/interpolation_code.PNG">
           <img class="centre_big_gif" src="images/obstacle.gif">
@@ -75,10 +73,10 @@
         <p>
           Una curva di Beziér è una curva parametrica polinomiale definita sull'intervallo chiuso [0, 1]; per costruire
           una curva di Beziér
-          per prima cosa bisogna definire N punti che andranno a costruire il suo poligono di controllo.
+          per prima cosa bisogna definire N punti che andranno a costruire il suo poligono di controllo.<br>
           Definiti N punti di controllo, il grado K della curva è pari a N-1, cioé il numero di
           punti del poligono di controllo meno 1; come già detto nel manuale utente, per ogni curva, il giocatore può
-          usare al massimo 7 punti. Questo significa che il grado massimo delle curve di Beziér utilizzate sarà 6.
+          usare al massimo 7 punti.<br> Questo significa che il grado massimo delle curve di Beziér utilizzate sarà 6.<br>
 
           Le curve di Beziér prodotte dal giocatore, sono costruite tramite i polinomi di Bernstein.
         </p>
@@ -121,10 +119,10 @@
         <p>
           Una spline cubica di Hermite è una curva composta da curve di Beziér di grado 3, incollate
           lungo i punti del poligono di controllo con incollamento C1; essendo ogni frammento della spline una curva di Beziér, tutte le sue parti
-          sono definite da funzioni polinomiali definite sul medesimo intervallo [0, 1].
+          sono definite da funzioni polinomiali definite sul medesimo intervallo [0, 1].<br>
           A differenza delle curve di Beziér però, l'interpolazione nei vari frammenti della spline, viene fatta considerando una a una, le coppie di punti (del poligono di controllo)
-          ai quali vengono associati anche dei vettori tangenti.
-          Le curve di Hermite che si possono costruire nel gioco, possono avere al massimo 7 punti.
+          ai quali vengono associati anche dei vettori tangenti.<br>
+          Le curve di Hermite che si possono costruire nel gioco, possono avere al massimo 7 punti.<br>
 
           La definizione matematica di queste spline è basata sui polinomi di Hermite \(H\): dati i punti \(Q_0\) e \(Q_1\) ai quali sono associati i vettori tangenti \(m_0\) e \(m_1\), 
           è possibile definire i punti di controllo \(P_0\),\(P_1\),\(P_2\) e \(P_3\) di un frammento della curva in questo modo:
@@ -163,7 +161,7 @@
           \(P(t) = H_0^3(t)*Q_0+H_1^3(t)*Q_1+H_2^3(t)*Q_2+H_3^3(t)*Q_3\)<br>
         </p>
         <p>
-          La spine quindi è costruita usando questa definizione, per ogni coppia di punti e tangenti che la compongono.
+          La spine quindi è costruita usando questa definizione, per ogni coppia di punti e tangenti che la compongono.<br>
           Passiamo ora alla definizione di queste curva da codice:
           <img class="code_image" src="images/hermite_code.PNG">
           Il modulo dei vettori associati a ciascun punto è una costante(6). 
@@ -172,7 +170,7 @@
         <h3 id="bspline">B-Spline</h3>
         <p>
           Le curve b-spline, come le spline cubiche di Hermite sono curve composte da curve di Beziér(di grado 3 in questo progetto) opportunamente incollate; le b-spline, a differenza 
-          delle cubiche di Hermite, non passano nei punti identificati dal poligono di controllo, ma si limitano ad approssimarli.
+          delle cubiche di Hermite, non passano nei punti identificati dal poligono di controllo, ma si limitano ad approssimarli.<br>
           Il dominio di queste curve diversamente da quelle che abbiamo visto fin'ora, non necessariamente è [0, 1]. <br>
           Esistono 3 tipi di b-spline:
           <ul>
@@ -189,7 +187,7 @@
           In Spline Ramp, le b-spline generate sono tutte b-spline cubiche uniformi, composte al massimo da 7 punti; 
           questo vuol dire, che se i punti usati per il poligono di controllo sono meno di 4, quello che si produrrà sarà una curva di Beziér di quel grado. <br>
           La parametrizzazione degli elementi di una b-spline sfrutta un vettore di valori, chiamato vettore nodi, che contiene una sequenza di valori crescenti. <br>
-          Ciascuna coppia di valori nodali \(t_i\) e \(t_{i+1}\) sono i parametri di interpolazione, utilizzati da una certa curva che compone la b-spline.
+          Ciascuna coppia di valori nodali \(t_i\) e \(t_{i+1}\) sono i parametri di interpolazione, utilizzati da una certa curva che compone la b-spline.<br>
           I valori contenuti in questo vettore, possono essere ripetuti, alterando la continuità della curva che si andrà a costruire; in particolare, ripetendo 
           un valore nodale nel vettore nodi, tante volte quante il grado delle curve di Beziér usate, forzerà la curva a passare per tale punto. <br>
           Nel progetto infatti, i valori nodali iniziali e finali sono ripetuti 3 volte, per forzare le curve a passare per il punto iniziale e finale. <br>
