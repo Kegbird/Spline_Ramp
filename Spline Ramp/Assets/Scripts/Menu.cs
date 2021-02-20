@@ -165,9 +165,9 @@ public class Menu : MonoBehaviour
         IEnumerator Delay()
         {
             howtoplay_back_btn.GetComponent<Button>().enabled = false;
-            LeanTween.moveY(howtoplay_back_btn, -1000, 0.25f);
+            LeanTween.moveY(howtoplay_back_btn, -1500, 0.25f);
             yield return new WaitForSeconds(0.25f);
-            LeanTween.moveY(tips_text, -1000, 0.25f);
+            LeanTween.moveY(tips_text, -1500, 0.25f);
             yield return new WaitForSeconds(0.25f);
             LeanTween.moveY(howtoplay_title, 300, 0.25f);
             yield return new WaitForSeconds(0.25f);

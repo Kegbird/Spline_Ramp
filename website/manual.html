@@ -35,25 +35,38 @@
     <div class="row pt-4 pb-4">
       <div class="panel col">
         <h1 class="text-center">Manuale utente</h1>
+        
+        <h2>Nota bene</h2>
+        Come verrà indicato nei prossimi paragrafi, il giocatore dovrà disporre di un dispositivo di puntamento(es: mouse, touchpad...) e una tastiera per giocare.<br>
+        Le possibili interazioni che il giocatore può fare con il gioco sono le seguenti:
+        <ul>
+          <li>Click singolo su bottoni visibili in gioco</li>
+          <li>Click mantenuto con eventuali movimenti del cursore e rilascio</li>
+          <li>Pressione mantenuta di 1 tasto della tastiera</li>
+        </ul>
+        Essendo che esistono differenti dispositivi di puntamento, il termine "click" dev'essere interpretato a seconda della periferica che si utilizza.
+        <ul>
+          <li>Se si dispone di mouse tradizionali, click significa premere il pulsante sinistro del mouse </li>
+          <li>Se si dispone di touchpad, click significa premere il tasto sinistro del touchpad</li>
+          <li>Se si dispone di mouse a singolo bottone, click significa premere quel bottone</li>
+        </ul>
+
         <h2>Elementi di gioco</h2>
         <p>
-          In Spline Ramp il tuo scopo è quello di mandare a canestro una palla, tramite una rampa; il gioco è
-          strutturato in 6 livelli, caratterizzati dalla presenza di ostacoli fissi, mobili ed elementi da sfruttare.<br>
-          Prima di addentrarci nel menù costruzione che permette di costruire o modificare la rampa, analizziamo prima
-          i vari oggetti, che si possono trovare nei livelli; alcuni di questi sono sempre presenti, mentre altri no.
+          In Spline Ramp il tuo scopo è quello di mandare a canestro una palla tramite una rampa; il gioco è
+          strutturato in 6 livelli caratterizzati dalla presenza di ostacoli fissi, mobili e altri elementi da sfruttare.<br>
+          Prima di addentrarci nel menù costruzione che permette di costruire e/o modificare la rampa, analizziamo
+          i vari oggetti che si possono trovare nei livelli.
         </p>
         <h4>La palla</h4>
         <p>
         <img class="centre_small_image" src="images/ball.png">
           La palla rappresenta il corpo che vogliamo mandare a canestro; il giocatore può decidere come lanciarla
           tramite la rampa costruita. <br>
-          Come verrà spiegato anche in seguito, la palla viene generata ogni volta che si avvia la simulazione;
-          all'inizio
-          della simulazione, questa verrà creata in un punto specifico nel livello e da quell'istante in poi, cadrà per
-          effetto della gravità. <br>
-          Tuttavia, la velocità acquisita durante la caduta e la corsa sulla rampa non bastarà a raggiungere il
-          canestro;
-          ecco perché, il giocatore durante la simulazione, può imprimere velocità nella palla, tenendo premuto
+          La palla viene generata ogni volta che si avvia la simulazione; la simulazione genererà la palla in corrispondenza dell'icona della bandiera e, da quell'istante in poi, 
+          cadrà per effetto della gravità. <br>
+          Tuttavia, la velocità acquisita durante la caduta e la corsa sulla rampa non basterà a farle raggiungere il canestro;
+          ecco perché, il giocatore durante la simulazione, può imprimere velocità nella palla tenendo premuto
           il pulsante 'a' della tastiera; l'accelerazione è costante e viene impressa lungo vettore velocità della
           palla. <br>
           La velocità della palla continuerà a crescere, finché che il giocatore non rilascia il pulsante 'a'.
@@ -61,62 +74,55 @@
         <h4>Il canestro</h4>
         <p>
         <img class="centre_small_image" src="images/net.png">
-          Il canestro rappresenta l'obiettivo di gioco; per superare il livello è sufficiente far si che la palla vi
-          ci entri.<br>
-          Generalmente, questo è fissato in una certa posizione che è diversa in tutti i livelli, a parte
-          in un livello, in cui questo si muove, con velocità costante lungo un certo percorso.
+          Il canestro rappresenta l'obiettivo di gioco, dove bisogna mandare la palla.<br>
+          Generalmente questo è fissato in una certa posizione che è diversa in tutti i livelli, fatta eccezione per uno in particolare, in cui si muove.
         </p>
         <h4>Coni stradali</h4>
         <p>
         <img class="centre_small_image" src="images/cone.png">
           I coni stradali sono ostacoli mobili che seguono un percorso, posto tra la rampa e il canestro.
-          Ogni cono stradale segue un percorso prefissato, e lo segue con una
-          sua velocità e andatura.<br>
+          Ogni cono stradale segue un percorso prefissato, con una certa velocità e andatura.<br>
           Se durante il viaggio della palla, questa colpisce un cono, verrà deviata e probabilmente non raggiungerà il
           canestro.<br>
-          Prima di lanciare la palla è quindi importante seguire bene i loro movimenti di questi coni.
+          Prima di lanciare la palla è importante seguire bene i loro movimenti.<br>
+          Sono presenti in 4 dei 6 livelli proposti dal gioco.
         </p>
         <h4>Muri</h4>
         <p>
-          Questi ostacoli sono rappresentati da dei rettangoli bianchi posti in zone prefissate nei livelli;
-          per superarli, basta far si che la palla non li tocchi durante il suo tragitto.<br>
-          La loro posizione rimane fissa durante tutto il tempo di gioco, fatta eccezione per l'ultimo livello
-          di Spline Ramp, in cui c'è un muro che ruota con velocità costante, attorno al suo asse.
+          Questi ostacoli sono rappresentati da dei rettangoli bianchi; per superarli, basta far si che la palla non li tocchi.<br>
+          Sono presenti in 2 livelli: in uno, questo è fisso e non si muove, nell'altro invece ruota.
         </p>
         <h4>Materassi</h4>
         <p>
         <img class="centre_small_image" src="images/mattress.png">
-          I materassi rappresentano un elemento di supporto al giocatore; sono prefissati nei vari livelli e tutti fanno
-          rimbalzare la palla nel medesimo modo (a seconda di dove questa colpisca il materasso e con che velocità).<br>
-          In certe situazioni, non sarà possibile costruire una rampa molto lunga, per cui è importante sfruttarli al meglio.
+          I materassi rappresentano un elemento di supporto al giocatore e fanno rimbalzare la palla al contatto.<br>
+          In certe situazioni non sarà possibile costruire rampe molto lunghe, per cui è importante sfruttarli al meglio. <br>
+          Sono presenti in 2 livelli e sono sempre fissi.
         </p>
         <h4>Monete</h4>
         <p>
           <img class="centre_small_image" src="images/coin.png">
           Le monete sono degli oggetti che si possono raccogliere in tutti i livelli; per raccogliere una moneta, basta
-          che
-          la palla, la tocchi durante il suo tragitto. <br> Le monete non sono ostacoli e non generano collisioni. <br>
-          Ci sono 3 monete in tutti i livelli che si possono raccogliere e sono disposte in modo diverso; il modo con
-          cui sono disposte,
-          suggerisce inoltre, una possibile traiettoria che la palla può seguire per andare a canestro. <br>
-          Se la palla fa canestro, il gioco controlla quante sono le monete raccolte durante quella simulazione; a
-          seconda di quante
-          monete sono state raccolte, il gioco mostrerà un messaggio diverso al giocatore.
+          che la palla la tocchi. <br>
+          Le monete non sono ostacoli e non generano collisioni. <br>
+          Ci sono 3 monete in tutti i livelli che si possono raccogliere e sono disposte in modo diverso; la 
+          loro disposizione inoltre, suggerisce una possibile traiettoria che la palla può seguire per andare a canestro. <br>
+          Se la palla fa canestro, il gioco controllerà il numero di monete raccolte durante la simulazione e, in base a questo numero, 
+          visualizzerà un messaggio di vittoria diverso.
           <ul>
             <li> 0 monete: "Puoi fare di meglio!"</li>
             <li> 1 monete: "Bravino!"</li>
             <li> 2 monete: "Bravo!"</li>
             <li> 3 monete: "Bravissimo!"</li>
           </ul>
-          In ogni caso, per avanzare nel gioco basta solo fare canestro.
+          In ogni caso per avanzare nel gioco basta fare canestro.
       </p>
 
         <h2>Menù costruzione</h2>
         <p>
           Dopo avere spiegato le cose che si possono trovare in Spline Ramp, vediamo come costruire effettivamente una
           rampa. <br>
-
-          Per creare o modificare una rampa, bisogna accedere al menù costruzione, cliccando sull'ingranaggio nero
+          Per creare o modificare una rampa bisogna accedere al menù costruzione, cliccando sull'ingranaggio nero
           posizionato in alto a sinistra.
           <img class="centre_small_image" src="images/settings.png">
           Compariranno una serie di icone:
@@ -128,7 +134,7 @@
             <li><a href="#edit">Modifica</a></li>
           </ul>
 
-          Alcuni menù all'inizio sono disabilitati, perché si possono usare solo se la rampa è stata creata; in ogni
+          Alcuni icone all'inizio sono disabilitate, perché si possono usare solo se la rampa è stata creata; in ogni
           livello, si può costruire solo una rampa.<br>
           Analizziamo le varie funzionalità.
         </p>
@@ -147,30 +153,28 @@
             <li>Hermite</li>
             <li>BSpline</li>
           </ul>
-          La rampa segmentata è una rampa molto semplice, la cui struttura è descritta da una sequenza di segmenti
-          collegati; la rampa di Beziér è una rampa costruita seguendo la curva definita dai punti del poligono di
-          controllo specificato.<br>
-          La rampa di Hermite è una rampa costruita sfruttando i polinomi di Hermite: in ciascun punto della sua
-          struttura è possibile cambiare la direzione del vettore tangente alla curva; infine la rampa BSpline è una rampa costruita sulla bspline definita dai punti del poligono di controllo.<br>
+          La <b>rampa segmentata</b> è una rampa molto semplice, la cui struttura è descritta da una sequenza di segmenti
+          collegati.<br> 
+          La <b>rampa di Beziér</b> è una rampa costruita lungo una curva di Beziér.<br>
+          La <b>rampa di Hermite</b> è una rampa definita da una spline cubica di Hermite.<br> 
+          La <b>rampa BSpline</b> è una rampa che segue una b-spline cubica.<br>
           Per maggiori informazioni sulle implmentazioni di queste rampe, consultare la pagina di teoria.<br>
-          Una volta scelta la rampa, per definire i punti della rampa, basterà cliccare sul lato sinistro dello schermo,
-          delimitato da una linea bianca di confine; la regione indicata in rosso, nell'immagine sottostante, rappresenta la porzione di spazio in cui si possono immettere i punti.
+          Una volta scelta la rampa che vogliamo costruire, per definire i punti della rampa basterà cliccare sul lato sinistro dello schermo,
+          delimitato da una linea bianca di confine; la regione indicata in rosso nell'immagine sottostante, rappresenta la porzione di spazio in cui si possono immettere i punti.
           <img class="centre_big_image" src="images/valid_region.PNG">
-          Dopo ogni click valido, appariranno dei punti neri in corrispondenza della posizione del mouse; l'ordine di immissione dei
-          punti e la loro posizione verranno usati per definire il poligono di controllo della rampa e successivamente la rampa.<br>
+          Dopo ogni click valido, appariranno dei punti neri in corrispondenza del cursore; l'ordine di immissione dei
+          punti e la loro posizione verranno usati per definire il poligono di controllo della rampa.<br>
           Per ogni rampa, si possono definire al massimo 7 punti; se si immettono 7 punti, la rampa viene creata automaticamente.<br>
-          Quando siamo soddisfatti della forma del poligono di controllo, basterà cliccare sul pulsante di conferma.<br>
-          Per le rampe Hermitiane, è possibile cambiare la direzione del vettore tangente in ogni punto, tenendo premuto il
-          pulsante sinistro del mouse sopra l'indicatore di direzione. <br>
+          Quando siamo soddisfatti della forma del poligono di controllo, possiamo confermare la struttura cliccando sul pulsante di conferma; così facendo, la rampa verrà creata sfruttando i punti specificati.<br>
+          Per le rampe di Hermite è possibile cambiare le direzioni dei vettori tangenti, cliccando e tenendo premuto il cursore sopra uno di questi; il vettore 
+          si orienterà in direzione del cursore, finché non si rilascia.
         </p>
 
         <h4 id="translate">Traslazione</h4>
         <p>
           <img class="centre_small_image" src="images/translate.png">
-          Questa funzionalità ci permette di traslare la rampa creata; per muovere la rampa, basta cliccare e tenere premuto il
-          tasto sinistro del mouse sulla rampa e muovere il cursore, per spostarla dove vogliamo.<br>
-          Quando siamo soddisfatti delle modifiche, basterà cliccare sul bottone di conferma, per confermare la nuova
-          posizione.
+          Questa funzionalità ci permette di traslare la rampa creata; per muovere la rampa sarà sufficiente cliccare e tenere premuto il cursore sulla rampa per trascinarla nella scena di gioco.<br>
+          La rampa si muoverà seguendo il cursore, finché non si rilascia; per salvare i cambiamenti, cliccare sul bottone di conferma.
         </p>
 
         <h4 id="garbage_can">Cestino</h4>
@@ -182,28 +186,27 @@
         <h4 id="rotate">Rotazione</h4>
         <p>
           <img class="centre_small_image" src="images/rotate.png">
-          Questa funzionalità ci permette di ruotare la rampa creata; per ruotare la rampa è sufficiente cliccare e tenere premuto
-          l'indicatore di rotazione che appare in prossimità della rampa, e muovere il cursore; la rampa ruoterà di conseguenza.<br>
-          Una volta che siamo soddisfatti del nuovo orientamento, basterà confermare tramite il bottone di conferma.
+          Questa funzionalità ci permette di ruotare la rampa creata; cliccando e tenendo premuto l'indicatore di rotazione(che apparirà in prossimità della rampa), sarà possibile ruotare la rampa in riferimento alla posizione del cursore.<br>
+          La nuova orientazione si potrà confermare sempre con un click al bottone di conferma.
         </p>
 
         <h4 id="edit">Modifica</h4>
         <p>
           <img class="centre_small_image" src="images/edit.png">
-          Questo menù ci permetterà di cambiare e adattare la struttura della curva; questo menù non permette di
-          aggiungere nuovi punti al poligono di
-          controllo, ma solo di aggiornare le posizioni dei punti già creati. <br>
-          Per modificare la posizione di un punto, basta cliccare e tenere premuto su questi, spostando il cursore; la
-          modifica delle cubiche di Hermite
-          funziona in modo analogo, aggiungendo la possibilità di cambiare la direzione dei vari vettori tangenti.
+          Questo menù consente di cambiare la posizione dei punti che definiscono la struttura della rampa esistente.<br>
+          Per modificare la posizione di un punto bisogna cliccare e tenere premuto il cursore su uno di questi per trascinarlo nella scena di gioco; per 
+          le spline cubiche di Hermite è possibile cambiare le direzioni dei vettori tangenti, in modo analogo alla fase di costruzione.<br>
+          Per confermare le modifiche, cliccare sul bottone conferma.<br>
+          E' bene precisare che non si possono aggiungere ulteriori punti di supporto, oltre a quelli già creati.<br>
+          Qualora volessimo aggiungerne di nuovi, bisognerà cancellare la rampa e ricrearla.<br>
         </p>
         <h2>Simulazione</h2>
         <p>
-          Per testare se la rampa costruita è idonea allo scopo, si può avviare la simulazione
-          cliccando sul pulsante "Play", nella parte in alto a destra della schermata di gioco.<br>
-          Una volta fatto, la palla verrà generata a partire dall'icona bandiera e da lì, cadrà in basso per effetto
+          Per testare se la rampa costruita è idonea allo scopo, si può avviare la simulazione, 
+          cliccando sul pulsante "Play" nella parte in alto a destra della schermata di gioco.<br>
+          Una volta fatto, la palla verrà generata a partire dall'icona della bandiera e da lì cadrà in basso, per effetto
           della gravità.<br>
-          Una buona rampa e i tempi giusti di accelerazione, sono la chiave per mandare la palla a canestro. <br>
+          Una buona rampa e i tempi giusti di accelerazione sono la chiave per mandare la palla a canestro. <br>
           Se la palla va a canestro, apparirà la schermata di vittoria che proporrà al giocatore di passare al livello successivo, oppure
           ritentare il livello corrente.
           <img class="centre_big_gif" src="images/simulation.gif">
