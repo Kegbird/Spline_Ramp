@@ -20,7 +20,7 @@ namespace Assets.Scripts.Ramps
             for (int i = 0; i < num_nodes; i++)
                 support_points[i] = ramp_gameobject.transform.GetChild(i).localPosition;
 
-            if (num_points <= Constants.BSPLINE_DEGREE)
+            if (num_points-1 <= Constants.BSPLINE_DEGREE)
             {
                 //Normal bezier curve
                 line_renderer.positionCount = Constants.CURVE_STEPS + 1;
@@ -41,10 +41,6 @@ namespace Assets.Scripts.Ramps
 
                 switch (num_nodes)
                 {
-                    case 4:
-                        knots = new List<float>(Constants.KNOTS_4);
-                        num_curves = 2;
-                        break;
                     case 5:
                         knots = new List<float>(Constants.KNOTS_5);
                         num_curves = 2;

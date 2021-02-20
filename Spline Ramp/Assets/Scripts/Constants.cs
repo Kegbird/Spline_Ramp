@@ -33,7 +33,6 @@ namespace Assets.Scripts
         public static int MAX_SUPPORT_POINTS = 7;
         public static float ROTATION_SPEED = 10f;
         public static Dictionary<int, int> coin_per_level = new Dictionary<int, int>();
-        public static float[] KNOTS_4 = { 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f};
         public static float[] KNOTS_5 = { 0f, 0f, 0f, 0f, 1f, 2f, 2f, 2f, 2f };
         public static float[] KNOTS_6 = { 0f, 0f, 0f, 0f, 1f, 2f, 3f, 3f, 3f, 3f };
         public static float[] KNOTS_7 = { 0f, 0f, 0f, 0f, 1f, 2f, 3f, 4f, 4f, 4f, 4f };
