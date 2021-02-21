@@ -15,6 +15,10 @@ a {
     color: rgb(0, 0, 0);
 }
 
+a:hover {
+    color: rgb(255, 255, 255);
+}
+
 ul {
     color: rgb(0, 0, 0);
 }
@@ -70,15 +74,6 @@ body {
     margin-left: 12.5% !important;
     margin-right: 12.5% !important;
     border-radius: 25px;
-}
-
-.panel_game {
-    margin-left: 10% !important;
-    margin-right: 10% !important;
-    width: 80%;
-    padding: 2.5%;
-    border-radius: 25px;
-    background-color: #b6b6b6;
 }
 
 .panel {
