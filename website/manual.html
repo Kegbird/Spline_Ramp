@@ -35,6 +35,23 @@
     <div class="row pt-4 pb-4">
       <div class="panel col">
         <h1 class="text-center">Manuale utente</h1>
+        
+        <h2>Nota bene</h2>
+        Come verrà indicato nei prossimi paragrafi, il giocatore dovrà disporre di un dispositivo di puntamento(es: mouse, touchpad...) e una tastiera per interagire con il gioco.<br>
+        Le possibili interazioni che il giocatore può fare con il gioco sono le seguenti:
+        <ul>
+          <li>Click singolo su bottoni visibili in gioco</li>
+          <li>Click mantenuto con eventuali movimenti del cursore e rilascio</li>
+          <li>Pressione mantenuta di 1 tasto della tastiera</li>
+        </ul>
+        Essendo che esistono differenti dispositivi di puntamento, è bene chiarire il termine "click":
+        <ul>
+          <li>Click del pulsante sinistro del mouse(mouse tradizionali)</li>
+          <li>Click del pulsante sinistro del touchpad</li>
+          <li>Click del pulsante del mouse(mouse a singolo bottone)</li>
+        </ul>
+        A seconda quindi del dispositivi di puntamento che si utilizza, interpretare il termine click come specificato qui sopra.
+
         <h2>Elementi di gioco</h2>
         <p>
           In Spline Ramp il tuo scopo è quello di mandare a canestro una palla tramite una rampa; il gioco è
@@ -106,11 +123,10 @@
         <p>
           Dopo avere spiegato le cose che si possono trovare in Spline Ramp, vediamo come costruire effettivamente una
           rampa. <br>
-
-          Per creare o modificare una rampa, bisogna accedere al menù costruzione, cliccando sull'ingranaggio nero
+          Per creare o modificare una rampa bisogna accedere al menù costruzione, cliccando sull'ingranaggio nero
           posizionato in alto a sinistra.
           <img class="centre_small_image" src="images/settings.png">
-          Al click compariranno una serie di icone:
+          Compariranno una serie di icone:
           <ul>
             <li><a href="#hammer">Martello</a></li>
             <li><a href="#translate">Traslazione</a></li>
@@ -147,20 +163,19 @@
           Una volta scelta la rampa che vogliamo costruire, per definire i punti della rampa basterà cliccare sul lato sinistro dello schermo,
           delimitato da una linea bianca di confine; la regione indicata in rosso nell'immagine sottostante, rappresenta la porzione di spazio in cui si possono immettere i punti.
           <img class="centre_big_image" src="images/valid_region.PNG">
-          Dopo ogni click valido, appariranno dei punti neri in corrispondenza della posizione del mouse; l'ordine di immissione dei
+          Dopo ogni click valido, appariranno dei punti neri in corrispondenza del cursore; l'ordine di immissione dei
           punti e la loro posizione verranno usati per definire il poligono di controllo della rampa.<br>
           Per ogni rampa, si possono definire al massimo 7 punti; se si immettono 7 punti, la rampa viene creata automaticamente.<br>
-          Quando siamo soddisfatti della forma del poligono di controllo, basterà cliccare sul pulsante di conferma per costruirla lungo i punti specificati.<br>
-          Per le rampe di Hermite è possibile cambiare le direzioni dei vettori tangenti, cliccando e tenendo premuto il pulsante sinistro del mouse sopra uno di questi e muoverlo; il vettore 
-          si orienterà in direzione del mouse, finché non si rilascia.
+          Quando siamo soddisfatti della forma del poligono di controllo, possiamo confermare la struttura cliccando sul pulsante di conferma; così facendo, la rampa verrà creata sfruttando i punti specificati.<br>
+          Per le rampe di Hermite è possibile cambiare le direzioni dei vettori tangenti, cliccando e tenendo premuto il cursore sopra uno di questi; il vettore 
+          si orienterà in direzione del cursore, finché non si rilascia.
         </p>
 
         <h4 id="translate">Traslazione</h4>
         <p>
           <img class="centre_small_image" src="images/translate.png">
-          Questa funzionalità ci permette di traslare la rampa creata; per muovere la rampa, basta cliccare e tenere premuto il
-          tasto sinistro del mouse sulla rampa e muovere il cursore.<br>
-          Per confermare le modifiche, basterà cliccare sul bottone di conferma.
+          Questa funzionalità ci permette di traslare la rampa creata; per muovere la rampa sarà sufficiente cliccare e tenere premuto il cursore sulla rampa per trascinarla nella scena di gioco.<br>
+          La rampa si muoverà seguendo il cursore, finché non si rilascia; per salvare i cambiamenti, cliccare sul bottone di conferma.
         </p>
 
         <h4 id="garbage_can">Cestino</h4>
@@ -172,24 +187,23 @@
         <h4 id="rotate">Rotazione</h4>
         <p>
           <img class="centre_small_image" src="images/rotate.png">
-          Questa funzionalità ci permette di ruotare la rampa creata; per ruotare la rampa è sufficiente cliccare e tenere premuto
-          l'indicatore di rotazione(che appare in prossimità della rampa) e muovere il cursore; la rampa ruoterà di conseguenza.<br>
-          La nuova orientazione si conferma tramite il bottone di conferma.
+          Questa funzionalità ci permette di ruotare la rampa creata; cliccando e tenendo premuto l'indicatore di rotazione(che apparirà in prossimità della rampa), sarà possibile ruotare la rampa in riferimento alla posizione del cursore.<br>
+          La nuova orientazione si potrà confermare sempre con un click al bottone di conferma.
         </p>
 
         <h4 id="edit">Modifica</h4>
         <p>
           <img class="centre_small_image" src="images/edit.png">
           Questo menù consente di cambiare la posizione dei punti che definiscono la struttura della rampa esistente.<br>
-          Per modificare la posizione di un punto è sufficiente cliccare e tenere premuto il cursore su uno di questi e muovere il mouse; per 
+          Per modificare la posizione di un punto bisogna cliccare e tenere premuto il cursore su uno di questi per trascinarlo nella scena di gioco; per 
           le spline cubiche di Hermite è possibile cambiare le direzioni dei vettori tangenti, in modo analogo alla fase di costruzione.<br>
           E' bene precisare che non si possono aggiungere ulteriori punti di supporto, oltre a quelli già creati.<br>
           Qualora volessimo aggiungerne di nuovi, bisognerà cancellare la rampa e ricrearla.<br>
         </p>
         <h2>Simulazione</h2>
         <p>
-          Per testare se la rampa costruita è idonea allo scopo, si può avviare la simulazione
-          cliccando sul pulsante "Play", nella parte in alto a destra della schermata di gioco.<br>
+          Per testare se la rampa costruita è idonea allo scopo, si può avviare la simulazione, 
+          cliccando sul pulsante "Play" nella parte in alto a destra della schermata di gioco.<br>
           Una volta fatto, la palla verrà generata a partire dall'icona della bandiera e da lì, cadrà in basso per effetto
           della gravità.<br>
           Una buona rampa e i tempi giusti di accelerazione sono la chiave per mandare la palla a canestro. <br>

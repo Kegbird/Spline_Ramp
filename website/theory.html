@@ -59,7 +59,7 @@
           Nel gioco sono presenti degli ostacoli che si muovono secondo dei percorsi prestabiliti; per spiegare come questi oggetti si muovono, consideriamo un ostacolo mobile a cui viene associato il percorso di punti
           \({P_0, P_{1} ... P_N}\).<br>
           Gli ostacoli nel gioco si muovono per interpolazione tra coppie di punti del percorso assegnatogli. <br>
-          La prima coppia di punti considerata nell'esempio è \(P_0, P_1\); partendo da \(P_0\), prima o poi, a seconda della curva che utilizzano per l'interpolazione, 
+          La prima coppia di punti considerata nell'esempio è \(P_0, P_1\); partendo da \(P_0\), prima o poi, a seconda della curva che utilizzano per l'interpolazione,
           l'ostacolo raggiunge il punto \(P_1\) del percorso; in quel momento, questo cambierà la coppia di punti utilizzati in \(P_1, P_2\), riprendendo l'interpolazione da 0.<br>
           Questo processo continua, finché non raggiunge il punto finale del percorso \(P_N\); a quel punto, l'ostacolo riparte con coppia \(P_0, P_1\). <br>
           Tutti gli ostacoli si muovono seguendo questa logica, usando percorsi diversi e curve diverse. <br>
@@ -120,7 +120,7 @@
             Nessun controllo locale: ogni volta che modifichiamo una curva di Beziér esistente, cambiamo tutta la curva.
           </li>
           <li>
-            Non adatte per la costruzione di curve lunghe: come sappiamo dalla teoria, il grado di una curva di Beziér dipende dal numero di punti; 
+            Non adatte per la costruzione di curve lunghe: come sappiamo dalla teoria, il grado di una curva di Beziér dipende dal numero di punti;
             questo implica, che più punti utilizziamo per la curva, più la sua valutazione e modifica diventa più onerosa.<br>
           </li>
         </ul>
@@ -128,28 +128,28 @@
         <h3 id="hermite">Spline cubiche di Hermite</h3>
         <p>
           Una spline cubica di Hermite è una curva composta da curve di Beziér di grado 3, incollate
-          lungo i punti del poligono di controllo e parametrizzate sul medesimo intervallo.<br>
-          Per costruire queste spline, oltre a fornire gli \(N\) punti del poligono di controllo, bisogna anche definire \(N\) vettori tangenti 
-          associati a questi.<br>
-          Questi vettori tangenti impongono le tangenti, che le varie curve di Beziér devono rispettare lungo la spline nei vari punti di incollamento; per questo motivo, gli incollamenti della curva sono di tipo \(C1\).<br>
-          Le curve di Hermite che si possono costruire nel gioco, possono avere al massimo 7 punti.<br>
-          La descrizione matematica di queste spline è basata sui polinomi di Hermite \(H\): dati i punti \(Q_0\) e \(Q_1\) ai quali sono associati i vettori tangenti \(m_0\) e \(m_1\), 
-          è possibile calcolare i punti di controllo \(P_0\),\(P_1\),\(P_2\) e \(P_3\) di un frammento della curva, che identificano univocamente una curva di Beziér di grado 3 con quelle caratteristiche.
+          lungo i punti del poligono di controllo e parametrizzate sul medesimo intervallo \([0, 1]\).<br>
+          Le varie curve di Beziér che compongono queste spline, vengono chiamate cubiche di Hermite e si costruiscono in modo differente, rispetto alle curve di Beziér di grado 3.<br>
+          Per costruire una cubica di Hermite bisogna specificare 2 punti e 2 vettori:
+          <ul>
+            <li>\(Q_0\): il punto iniziale della cubica</li>
+            <li>\(Q_1\): il punto finale della cubica</li>
+            <li>\(\vec{m_0}\): il vettore tangente nel punto iniziale della cubica</li>
+            <li>\(\vec{m_1}\): il vettore tangente nel punto finale della cubica</li>
+          </ul>
+          Sfruttando i polinomi di Hermite e questi dati, è possibile calcolare l'unica curva di Beziér di grado 3 che parte da \(Q_0\), con il vettore tangente \(\vec{m_0}\) e che finisce in \(Q_1\) con tangente \(\vec{m_1}\); è possibile dimostrare che la cubica di Hermite ottenuta identifica univocamente, la curva di Beziér calcolata con i seguenti punti:<br>
         </p>
         <p>
-          \(P_0 = Q_0\)<br>
+          \begin{cases}
+            P_0 = Q_0 \\
+            P_1 = Q_0+\vec{m_0}*1/3 \\
+            P_2 = Q_1-\vec{m_1}*1/3 \\
+            P_3 = Q_1
+          \end{cases}
         </p>
         <p>
-          \(P_1 = Q_0+m_0*1/3\)<br>
-        </p>
-        <p>
-          \(P_2 = Q_1+m_1*1/3\)<br>
-        </p>
-        <p>
-          \(P_3 = Q_1\)<br>
-        </p>
-        <p>
-          I polinomi di Hermite invece si valutano sfruttando ancora i polinomi di Bernstein:
+          Le spline cubiche di Hermite che si possono costruire nel gioco, possono avere al massimo 7 punti.<br>
+          Passiamo quindi alla definizione dei polinomi di Hermite, che si valutano sfruttando ancora i polinomi di Bernstein:
         </p>
         <p>
           \(H_0^3(t) = B_0^3(t)+B_1^3(t)\)<br>
@@ -158,13 +158,10 @@
           \(H_1^3(t) = \frac{1}{3}*B_1^3(t)\)<br>
         </p>
         <p>
-          \(H_2^3(t) = \frac{1}{3}*B_2^3(t)\)<br>
+          \(H_2^3(t) = -\frac{1}{3}*B_2^3(t)\)<br>
         </p>
         <p>
           \(H_3^3(t) = B_2^3(t)+B_3^3(t)\)<br>
-        </p>
-        <p>
-          Infine, sfruttando i punti calcolati inizialmente e i polinomi di Hermite:
         </p>
         <p>
           \(P(t) = H_0^3(t)*Q_0+H_1^3(t)*Q_1+H_2^3(t)*Q_2+H_3^3(t)*Q_3\)<br>
@@ -174,12 +171,12 @@
           <img class="code_image" src="images/hermite_code.PNG">
           Il modulo dei vettori tangenti associati a ciascun punto è costante(6).
           <img class="code_image" src="images/hermite_ramp.PNG">
-          Questo tipo di curve, sono preferite rispetto alle classiche curve di Beziér perché non soffrono dei problemi precedentemente citati.
-
-        </p>   
+          Questo tipo di spline, sono preferite rispetto alle classiche curve di Beziér, perché non soffrono dei problemi precedentemente citati, permettendo inoltre di porre delle vincoli posizionali e direzionali 
+          alla spline finale.
+        </p>
         <h3 id="bspline">B-Spline</h3>
         <p>
-          Le curve b-spline come le spline cubiche di Hermite sono curve composte da curve di Beziér opportunamente incollate; a differenza 
+          Le curve b-spline come le spline cubiche di Hermite sono curve composte da curve di Beziér opportunamente incollate; a differenza
           delle cubiche di Hermite, non passano nei punti identificati dal poligono di controllo, ma li approssimano.<br>
           Il dominio di queste curve diversamente da quelle che abbiamo visto fin'ora, non è necessariamente \([0, 1]\). <br>
           Esistono 3 tipi di b-spline:
@@ -191,7 +188,7 @@
               b-spline non uniformi: b-spline parametrizzate su intervalli di ampiezza diversa
             </li>
             <li>
-              b-spline non uniformi razionali: chiamate anche "nurbs", definite come rapporto di curve polinomiali. 
+              b-spline non uniformi razionali: chiamate anche "nurbs", definite come rapporto di curve polinomiali.
             </li>
           </ul>
           In Spline Ramp, le b-spline generate sono tutte b-spline cubiche non-uniformi, composte al massimo da 7 punti. <br>
@@ -200,13 +197,13 @@
           Nel caso in cui, il giocatore fornisca un numero di punti \(N\le 4\) per la costruzione della b-spline, l'applicazione genererà una curva di Beziér di grado \(N-1\). <br>
           La parametrizzazione degli elementi di una b-spline sfrutta un vettore di valori crescenti, chiamato vettore nodi; ciascuna coppia di valori nodali \(t_i\) e \(t_{i+1}\) sono i parametri di interpolazione, utilizzati da una certa curva che compone la b-spline.<br>
           I valori contenuti in questo vettore possono essere ripetuti, alterando la continuità della curva che si andrà a costruire.<br>
-          In particolare, ripetendo un valore nodale tante volte quante il grado \(K\) delle curve di Beziér usate, forzerà la curva a passare per il punto associato a quel nodo; nel progetto 
+          In particolare, ripetendo un valore nodale tante volte quante il grado \(K\) delle curve di Beziér usate, forzerà la curva a passare per il punto associato a quel nodo; nel progetto
           infatti, i valori nodali iniziali e finali sono ripetuti 3 volte, per forzare le curve a passare per il punto iniziale e finale. <br>
-          Il tipo di incollamento di queste curve dipende da due elementi: la molteplicità del valore nodale in un certo nodo e il grado delle curve di Beziér incollate; dato quindi un nodo 
-          con molteplicità \(P\) e curve di grado \(K\), il tipo di incollamento presso quel nodo è di tipo \(C^{K-P}\).<br> 
+          Il tipo di incollamento di queste curve dipende da due elementi: la molteplicità del valore nodale in un certo nodo e il grado delle curve di Beziér incollate; dato quindi un nodo
+          con molteplicità \(P\) e curve di grado \(K\), il tipo di incollamento presso quel nodo è di tipo \(C^{K-P}\).<br>
           In altre parole, ei punti iniziali e finali le curve sono continue ma non derivabili (\(C_0\)), mentre gli incollamenti interni sono tutti \(C2\) (supponendo che non ci siano nodi interni ripetuti). <br>
           Deve inoltre valere una condizione tra il numero dei nodi \(M\), il grado delle curve di Beziér \(K\) e il numero di punti del poligono di controllo \(N\): \(M=N+K+1\).<br>
-          Un'ultima proprietà particolare di questi oggetti è relativa al grado delle curve di Beziér utilizzate: più il grado è basso, più la b-spline ottenuta approssima meglio il 
+          Un'ultima proprietà particolare di questi oggetti è relativa al grado delle curve di Beziér utilizzate: più il grado è basso, più la b-spline ottenuta approssima meglio il
           poligono di controllo fornito.<br>
           Fatte queste premesse, passiamo alla descrizione di queste curve tramite l'algoritmo di DeBoor-Cox.
         </p>
@@ -250,7 +247,7 @@
           A seguito il codice che implementa il tutto.
           <img class="code_image" src="images/bspline_code.PNG">
           Questo è il codice che sfrutta la definizione matematica, per costruire la rampa nel gioco.<br>
-          Come si può vedere, nel caso in cui il numero di punti sia minore o uguale a 4, la curva prodotta è una normale curva di Beziér; in tutti gli altri casi, 
+          Come si può vedere, nel caso in cui il numero di punti sia minore o uguale a 4, la curva prodotta è una normale curva di Beziér; in tutti gli altri casi,
           la b-spline è costruita.<br>
           I vettori dei nodi sono vettori costanti sifatti: <br>
           <ul>
