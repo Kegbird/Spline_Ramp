@@ -197,7 +197,8 @@
           Il numero di curve incollate dipende dal numero di punti del poligono di controllo: supponiamo di avere la seguente sequenza di punti \(P_1, P_2 ... P_N\). <br>
           Con \(N\) punti del poligono di controllo, si incollano \(N-3\) curve di Beziér cubiche (se \(N \gt 4\)).<br>
           Nel caso in cui, il giocatore fornisca un numero di punti \(N\le 4\) per la costruzione della b-spline, l'applicazione genererà una curva di Beziér di grado \(N-1\). <br>
-          La parametrizzazione degli elementi di una b-spline sfrutta un vettore di valori crescenti, chiamato vettore nodi; ciascuna coppia di valori nodali \(t_i\) e \(t_{i+1}\) sono i parametri di interpolazione, utilizzati da una certa curva che compone la b-spline.<br>
+          La parametrizzazione degli elementi di una b-spline sfrutta un vettore di valori crescenti, chiamato vettore nodi; ciascuna coppia di valori nodali \(t_i\) e \(t_{i+1}\) sono i parametri di interpolazione, utilizzati dalla curva definita 
+          sui punti \(P_i, P_{i-1} ... P_{i-k}\).<br>
           I valori contenuti in questo vettore possono essere ripetuti, alterando la continuità della curva che si andrà a costruire.<br>
           In particolare, ripetendo un valore nodale tante volte quante il grado \(K\) delle curve di Beziér usate, forzerà la curva a passare per il punto associato a quel nodo; nel progetto
           infatti, i valori nodali iniziali e finali sono ripetuti 3 volte, per forzare le curve a passare per il punto iniziale e finale. <br>
