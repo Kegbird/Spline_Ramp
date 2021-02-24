@@ -49,7 +49,7 @@
           Essendo il gioco 2D, tutte le curve sopracitate sono curve piane, ovvero, curve il cui poligono di controllo
           giace su un piano; questo significa che hanno torsione pari a 0.<br>
           In questa pagina vengono trattate le rampe curve, sia dal punto di vista matematico, sia dal punto di vista implementativo.<br>
-          Le rampe curve create nel gioco sono discretizzate in 20 segmenti connessi tra loro, lungo i punti ottenuti tramite le definizioni matematiche.
+          Le rampe curve create nel gioco sono discretizzate in 20 segmenti connessi tra loro, lungo i punti ottenuti tramite le definizioni matematiche.<br>
           Oltre alle rampe curve ci sono anche le rampe segmentate che, essendo di semplice costruzione non sono trattate in questa pagina.<br>
           Il progetto è stato sviluppato tramite il game engine di Unity.
         </p>
@@ -73,8 +73,9 @@
         <p>
           Una curva di Beziér è una curva parametrica polinomiale definita sull'intervallo chiuso  \([0, 1]\); per costruire
           una curva di Beziér, bisogna definire \(N\) punti che andranno a costituire il suo poligono di controllo.<br>
-          \(N\) punti di controllo definiscono il grado della curva \(N-1\); come già detto nel manuale, per ogni curva il giocatore può
-          usare al massimo 7 punti; questo vuol dire che il grado massimo delle curve di Beziér utilizzate sarà 6.<br>
+          Il grado della curva di Beziér dipende dal numero di punti di controllo usati: con\(N\) punti di controllo, il grado della \(k\) curva costruita è \(N-1\); come già detto nel manuale, per ogni curva il giocatore può
+          usare al massimo 7 punti.<br>
+          Questo vuol dire che il grado massimo delle curve sarà 6.<br>
 
           Le curve di Beziér prodotte dal giocatore sono costruite tramite i polinomi di Bernstein.
         </p>
@@ -120,8 +121,8 @@
             Nessun controllo locale: ogni volta che modifichiamo una curva di Beziér esistente, cambiamo tutta la curva.
           </li>
           <li>
-            Non adatte per la costruzione di curve lunghe: come sappiamo dalla teoria, il grado di una curva di Beziér dipende dal numero di punti;
-            questo implica, che più punti utilizziamo per la curva, più la sua valutazione e modifica diventa più onerosa.<br>
+            Non adatte per la costruzione di curve lunghe: come sappiamo dalla teoria, il grado di una curva di Beziér dipende dal numero di punti del poligono di controllo;
+            questo implica, che più punti utilizziamo per la curva, più la sua valutazione diventa più onerosa.<br>
           </li>
         </ul>
         </p>
@@ -129,7 +130,7 @@
         <p>
           Una spline cubica di Hermite è una curva composta da curve di Beziér di grado 3, incollate
           lungo i punti del poligono di controllo e parametrizzate sul medesimo intervallo \([0, 1]\).<br>
-          Le varie curve di Beziér che compongono queste spline, vengono chiamate cubiche di Hermite e si costruiscono in modo differente, rispetto alle curve di Beziér di grado 3.<br>
+          Le varie curve di Beziér che compongono queste spline, vengono chiamate cubiche di Hermite e si costruiscono in modo differente rispetto alle curve di Beziér di grado 3.<br>
           Per costruire una cubica di Hermite bisogna specificare 2 punti e 2 vettori:
           <ul>
             <li>\(Q_0\): il punto iniziale della cubica</li>
@@ -137,7 +138,8 @@
             <li>\(\vec{m_0}\): il vettore tangente nel punto iniziale della cubica</li>
             <li>\(\vec{m_1}\): il vettore tangente nel punto finale della cubica</li>
           </ul>
-          Sfruttando i polinomi di Hermite e questi dati, è possibile calcolare l'unica curva di Beziér di grado 3 che parte da \(Q_0\), con il vettore tangente \(\vec{m_0}\) e che finisce in \(Q_1\) con tangente \(\vec{m_1}\); è possibile dimostrare che la cubica di Hermite ottenuta identifica univocamente, la curva di Beziér calcolata con i seguenti punti:<br>
+          Sfruttando questi dati e i polinomi di Hermite, è possibile calcolare l'unica curva di Beziér di grado 3 che parte da \(Q_0\), con il vettore tangente \(\vec{m_0}\) e che finisce in \(Q_1\) con tangente \(\vec{m_1}\); 
+          inoltre, ogni cubica di Hermite identifica univocamente una curva di Beziér di grado 3, calcolata sul seguente poligono di controllo:<br>
         </p>
         <p>
           \begin{cases}
@@ -149,7 +151,7 @@
         </p>
         <p>
           Le spline cubiche di Hermite che si possono costruire nel gioco, possono avere al massimo 7 punti.<br>
-          Passiamo quindi alla definizione dei polinomi di Hermite, che si valutano sfruttando ancora i polinomi di Bernstein:
+          Descriviamo ora i polinomi di Hermite, che si valutano sfruttando ancora i polinomi di Bernstein:
         </p>
         <p>
           \(H_0^3(t) = B_0^3(t)+B_1^3(t)\)<br>
@@ -167,7 +169,7 @@
           \(P(t) = H_0^3(t)*Q_0+H_1^3(t)*Q_1+H_2^3(t)*Q_2+H_3^3(t)*Q_3\)<br>
         </p>
         <p>
-          Passiamo ora alla definizione di queste curva da codice:
+          Il codice che implementa la definizione matematica di una curva di Hermite è il seguente:
           <img class="code_image" src="images/hermite_code.PNG">
           Il modulo dei vettori tangenti associati a ciascun punto è costante(6).
           <img class="code_image" src="images/hermite_ramp.PNG">
@@ -176,8 +178,8 @@
         </p>
         <h3 id="bspline">B-Spline</h3>
         <p>
-          Le curve b-spline come le spline cubiche di Hermite sono curve composte da curve di Beziér opportunamente incollate; a differenza
-          delle cubiche di Hermite, non passano nei punti identificati dal poligono di controllo, ma li approssimano.<br>
+          Le b-spline come le spline cubiche di Hermite sono curve ottenute dall'incollamento di curve di Beziér; a differenza
+          delle spline cubiche di Hermite però, non passano nei punti identificati dal poligono di controllo, ma li approssimano(se non poniamo certe condizioni, come vedremo a seguito).<br>
           Il dominio di queste curve diversamente da quelle che abbiamo visto fin'ora, non è necessariamente \([0, 1]\). <br>
           Esistono 3 tipi di b-spline:
           <ul>
