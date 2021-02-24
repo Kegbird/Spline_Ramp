@@ -57,11 +57,11 @@
         <h3>Interpolazione</h3>
         <p>
           Nel gioco sono presenti degli ostacoli che si muovono secondo dei percorsi prestabiliti; per spiegare come questi oggetti si muovono, consideriamo un ostacolo mobile a cui viene associato il percorso di punti
-          \({P_0, P_{1} ... P_N}\).<br>
+          \({P_0, P_{1} ... P_n}\).<br>
           Gli ostacoli nel gioco si muovono per interpolazione tra coppie di punti del percorso assegnatogli. <br>
           La prima coppia di punti considerata nell'esempio è \(P_0, P_1\); partendo da \(P_0\), prima o poi, a seconda della curva che utilizzano per l'interpolazione,
           l'ostacolo raggiunge il punto \(P_1\) del percorso; in quel momento, questo cambierà la coppia di punti utilizzati in \(P_1, P_2\), riprendendo l'interpolazione da 0.<br>
-          Questo processo continua, finché non raggiunge il punto finale del percorso \(P_N\); a quel punto, l'ostacolo riparte con coppia \(P_0, P_1\). <br>
+          Questo processo continua, finché non raggiunge il punto finale del percorso \(P_n\); a quel punto, l'ostacolo riparte con coppia \(P_0, P_1\). <br>
           Tutti gli ostacoli si muovono seguendo questa logica, usando percorsi diversi e curve diverse. <br>
           A seguito il codice usato per la gestione del movimenti e una piccola dimostrazione del risultato.<br>
           <img class="code_image" src="images/interpolation_code.PNG">
@@ -72,10 +72,9 @@
         <h3 id="bezier">Curve di Beziér</h3>
         <p>
           Una curva di Beziér è una curva parametrica polinomiale definita sull'intervallo chiuso  \([0, 1]\); per costruire
-          una curva di Beziér, bisogna definire \(N\) punti che andranno a costituire il suo poligono di controllo.<br>
-          Il grado della curva di Beziér dipende dal numero di punti di controllo usati: con\(N\) punti di controllo, il grado della \(k\) curva costruita è \(N-1\); come già detto nel manuale, per ogni curva il giocatore può
-          usare al massimo 7 punti.<br>
-          Questo vuol dire che il grado massimo delle curve sarà 6.<br>
+          una curva di Beziér, bisogna definire \(n\) punti che andranno a costituire il suo poligono di controllo.<br>
+          Il numero di punti di controllo utilizzati, determinerà il grado della \(k=n-1\).<br>
+          Nel gioco si possono definire al massimo curve di grado 6, per via del limite al numero di punti del poligono di supporto.<br>
 
           Le curve di Beziér prodotte dal giocatore sono costruite tramite i polinomi di Bernstein.
         </p>
@@ -138,8 +137,9 @@
             <li>\(\vec{m_0}\): il vettore tangente nel punto iniziale della cubica</li>
             <li>\(\vec{m_1}\): il vettore tangente nel punto finale della cubica</li>
           </ul>
-          Sfruttando questi dati e i polinomi di Hermite, è possibile calcolare l'unica curva di Beziér di grado 3 che parte da \(Q_0\), con il vettore tangente \(\vec{m_0}\) e che finisce in \(Q_1\) con tangente \(\vec{m_1}\); 
-          inoltre, ogni cubica di Hermite identifica univocamente una curva di Beziér di grado 3, calcolata sul seguente poligono di controllo:<br>
+          Sfruttando questi dati e i polinomi di Hermite, è possibile calcolare l'unica curva di Beziér di grado 3 che parte da \(Q_0\), con il vettore tangente \(\vec{m_0}\) e che finisce in \(Q_1\) con tangente \(\vec{m_1}\);
+          per questo motivo i vari incollamenti interni delle spline cubiche di Beziér sono di tipo \(C_1\).<br>
+          Ogni cubica di Hermite identifica univocamente una curva di Beziér di grado 3, calcolata sul seguente poligono di controllo:<br>
         </p>
         <p>
           \begin{cases}
@@ -150,7 +150,7 @@
           \end{cases}
         </p>
         <p>
-          Le spline cubiche di Hermite che si possono costruire nel gioco, possono avere al massimo 7 punti.<br>
+          Nel gioco si possono incollare al massimo 6 cubiche di Hermite lungo(cioè 7 punti del poligono di controllo e 7 tangenti).<br>
           Descriviamo ora i polinomi di Hermite, che si valutano sfruttando ancora i polinomi di Bernstein:
         </p>
         <p>
@@ -193,22 +193,22 @@
               b-spline non uniformi razionali: chiamate anche "nurbs", definite come rapporto di curve polinomiali.
             </li>
           </ul>
-          In Spline Ramp, le b-spline generate sono tutte b-spline cubiche non-uniformi, composte al massimo da 7 punti. <br>
-          Il numero di curve incollate dipende dal numero di punti del poligono di controllo: supponiamo di avere la seguente sequenza di punti \(P_1, P_2 ... P_N\). <br>
-          Con \(N\) punti del poligono di controllo, si incollano \(N-3\) curve di Beziér cubiche (se \(N \gt 4\)).<br>
-          Nel caso in cui, il giocatore fornisca un numero di punti \(N\le 4\) per la costruzione della b-spline, l'applicazione genererà una curva di Beziér di grado \(N-1\). <br>
+          In Spline Ramp, le b-spline generate sono tutte b-spline cubiche non-uniformi. <br>
+          Il numero di curve incollate dipende dal numero di punti del poligono di controllo: supponiamo di avere la seguente sequenza di punti \(P_1, P_2 ... P_n\). <br>
+          Con \(n\) punti del poligono di controllo, si incollano \(n-3\) curve di Beziér cubiche (se \(n \gt 4\)).<br>
+          Nel caso in cui, il giocatore fornisca un numero di punti \(n\le 4\) per la costruzione della b-spline, l'applicazione genererà una curva di Beziér di grado \(N-1\). <br>
           La parametrizzazione degli elementi di una b-spline sfrutta un vettore di valori crescenti, chiamato vettore nodi; ciascuna coppia di valori nodali \(t_i\) e \(t_{i+1}\) sono i parametri di interpolazione, utilizzati dalla curva definita 
           sui punti \(P_i, P_{i-1} ... P_{i-k}\).<br>
           I valori contenuti in questo vettore possono essere ripetuti, alterando la continuità della curva che si andrà a costruire.<br>
-          In particolare, ripetendo un valore nodale tante volte quante il grado \(K\) delle curve di Beziér usate, forzerà la curva a passare per il punto associato a quel nodo; nel progetto
-          infatti, i valori nodali iniziali e finali sono ripetuti 3 volte, per forzare le curve a passare per il punto iniziale e finale. <br>
+          In particolare, ripetendo un valore nodale tante volte quante il grado \(k\) delle curve di Beziér usate, forzerà la curva a passare per il punto associato a quel nodo; nel progetto
+          infatti, i valori nodali iniziali e finali sono ripetuti 4 volte, per forzare le curve a passare per il punto iniziale e finale. <br>
           Il tipo di incollamento di queste curve dipende da due elementi: la molteplicità del valore nodale in un certo nodo e il grado delle curve di Beziér incollate; dato quindi un nodo
-          con molteplicità \(P\) e curve di grado \(K\), il tipo di incollamento presso quel nodo è di tipo \(C^{K-P}\).<br>
-          In altre parole, ei punti iniziali e finali le curve sono continue ma non derivabili (\(C_0\)), mentre gli incollamenti interni sono tutti \(C2\) (supponendo che non ci siano nodi interni ripetuti). <br>
-          Deve inoltre valere una condizione tra il numero dei nodi \(M\), il grado delle curve di Beziér \(K\) e il numero di punti del poligono di controllo \(N\): \(M=N+K+1\).<br>
+          con molteplicità \(p\) e curve di grado \(k\), il tipo di incollamento presso quel nodo è di tipo \(C_{k-p}\).<br>
+          In altre parole, nei punti iniziali e finali le b-spline sono continue ma non derivabili, \(C_2\) negli incollamenti interni sono tutti(supponendo che non ci siano nodi interni ripetuti). <br>
+          Deve inoltre valere una condizione tra il numero dei nodi \(m\), il grado delle curve di Beziér \(k\) e il numero di punti del poligono di controllo \(n\): \(m-1=n+k\).<br>
           Un'ultima proprietà particolare di questi oggetti è relativa al grado delle curve di Beziér utilizzate: più il grado è basso, più la b-spline ottenuta approssima meglio il
           poligono di controllo fornito.<br>
-          Fatte queste premesse, passiamo alla descrizione di queste curve tramite l'algoritmo di DeBoor-Cox.
+          Vediamo ora come sono definite le b-spline usate tramite l'algoritmo di DeBoor-Cox.
         </p>
 
         <h4>Algoritmo di DeBoor-Cox</h4>
@@ -246,22 +246,22 @@
           <br><br>
           \(B_{i, k}=\frac{t-t_i}{t_{i+k-1}-t_i}*B_{i, k-1}(t) + \frac{t_{i+k}-t}{t_{i+k}-t_{i+1}}*B_{i+1, k-1}(t)\)
           <br><br>
-          Questa definizione produce molte volte \(\frac{0}{0}\) che vengono gestiti come fattori 0.<br>
+          La definizione appena vista, può andare incontro a situazioni di indeterminazione, a causa di zeri nei denominatori; in quei casi, il fattore della funzione base viene considerato \(0\).<br>
           A seguito il codice che implementa il tutto.
           <img class="code_image" src="images/bspline_code.PNG">
           Questo è il codice che sfrutta la definizione matematica, per costruire la rampa nel gioco.<br>
-          Come si può vedere, nel caso in cui il numero di punti sia minore o uguale a 4, la curva prodotta è una normale curva di Beziér; in tutti gli altri casi,
+          Come si può vedere dal codice, nel caso in cui il numero di punti sia minore o uguale a 4, la curva prodotta è una normale curva di Beziér; in tutti gli altri casi,
           la b-spline è costruita.<br>
-          I vettori dei nodi sono vettori costanti sifatti: <br>
+          I vettori dei nodi sono vettori costanti siffatti: <br>
           <ul>
             <li>
-              KNOTS_5 = [0, 0, 0, 0, 1, 2, 2, 2, 2]
+              [0, 0, 0, 0, 1, 2, 2, 2, 2] per \(n=5\)
             </li>
             <li>
-              KNOTS_6 = [0, 0, 0, 0, 1, 2, 3, 3, 3, 3]
+              [0, 0, 0, 0, 1, 2, 3, 3, 3, 3] per \(n=6\)
             </li>
             <li>
-              KNOTS_7 = [0, 0, 0, 0, 1, 2, 3, 4, 4, 4, 4]
+              [0, 0, 0, 0, 1, 2, 3, 4, 4, 4, 4] per \(n=7\)
             </li>
           </ul>
           <img class="code_image" src="images/bspline_ramp.PNG">
